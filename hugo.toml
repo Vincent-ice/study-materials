@@ -1,0 +1,91 @@
+baseURL = "https://vincent-ice.github.io/study-materials/"
+defaultContentLanguage = "zh"
+languageCode = "zh-Hans"
+title = "Vincent的图书馆"
+theme = "dream"
+
+enableGitInfo = true
+enableRobotsTXT = true
+
+hasCJKLanguage = true
+
+# [services]
+# [services.disqus]
+# shortname = ""
+# [services.googleAnalytics]
+# ID = ""
+
+[markup]
+[markup.goldmark.parser]
+wrapStandAloneImageWithinParagraph = false
+[markup.goldmark.parser.attribute]
+block = true
+[markup.goldmark.renderer]
+unsafe = true
+[markup.highlight]
+noClasses = false
+
+# [taxonomies]
+# category = "categories"
+# tag = "tags"
+# series = "series"
+
+[params]
+# zenMode = flase
+
+lightTheme = "emerald"
+darkTheme = "forest"
+
+# backgroundImage = "me/background.jpg"
+# backgroundImageDark = ""
+
+# images = ["me/background.jpg"]
+
+author = "Vicnent Ice"
+# description = "The life record of g1eny0ung is presented here."
+# avatar = "me/yy.jpg"
+headerTitle = "学!都可以学!"
+motto = "卷!都可以卷"
+
+# footerBottomText = ""
+
+rss = true
+
+# utterancesRepo = "g1eny0ung/g1eny0ung.github.io"
+
+# valine = true
+# LEANCLOUD_APP_ID = ""
+# LEANCLOUD_APP_KEY = ""
+
+# waline = true
+# walineServer = ""
+
+email = "VincentWQ123@gmail.com"
+
+siteStartYear = 2024
+
+# favicon = "favicon.ico"
+
+# Syntax highlighting
+customSyntaxHighlighting = true
+
+# options
+stickyNav = true
+# reorderNavItems = ["search", "rss", "posts", "categories", "tags"]
+collapseNavItems = ["posts", "categories", "tags"]
+# noDefaultSummaryCover = true
+showTableOfContents = true
+showSummaryCoverInPost = true
+showPrevNextPost = true
+# reorderShares = ["x", "facebook", "whatsapp"]
+
+[params.navItems]
+
+[params.advanced]
+customCSS = ["css/custom.css"]
+# customJS = []
+
+[params.experimental]
+jsDate = true
+jsDateFormat = "yyyy年MM月dd日"
+# jsDateFormat = "yyyy年MM月dd日，cccc"
