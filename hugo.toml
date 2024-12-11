@@ -67,7 +67,7 @@ siteStartYear = 2024
 # favicon = "favicon.ico"
 
 # Syntax highlighting
-customSyntaxHighlighting = true
+# customSyntaxHighlighting = true
 
 # options
 stickyNav = true

@@ -1,5 +1,6 @@
 ---
 title: 微机原理
+description: 根据期末复习ppt随便写了点
 date: 2024-12-11T16:45:45+08:00
 lastmod: 2024-12-11T19:10:45+08:00
 author: Vincent Ice
