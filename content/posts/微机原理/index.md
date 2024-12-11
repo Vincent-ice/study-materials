@@ -214,7 +214,7 @@ MOV AX, 1234H
 ```assembly
 MOV AX, [1234H]
 ```
-> 注意**"[]"**用以表示地址而非数据
+> 注意"[  ]"用以表示地址而非数据
 
 #### 1.3 寄存器寻址
 以寄存器中的内容作为操作数. 
@@ -256,7 +256,7 @@ MOV AX, [BX+DATA][SI]
 
 ### 2 基本指令
 #### 2.1 数据传送指令
-##### 数据传送指令MOV
+##### **数据传送指令MOV**
 ```assembly
 MOV dest, src
 ```
@@ -266,7 +266,7 @@ MOV dest, src
 - 在源操作数是立即数时，目标操作数不能是段寄存器
 - IP和CS不作为目标操作数，FLAGS一般也不作为操作数在指令中出现
 
-##### 栈控制指令POP/PUSH
+##### **栈控制指令POP/PUSH**
 ```assembly
 POP dest
 PUSH src
@@ -296,7 +296,7 @@ PUSH src
 </tbody>
 </table>
 
-##### 寄存器交换指令XCHG
+##### **寄存器交换指令XCHG**
 ```assembly
 XCHG OPRD1, OPRD2
 ```
@@ -305,7 +305,7 @@ XCHG OPRD1, OPRD2
 - 两个操作数字长必须相同
 
 #### 2.2 输入输出指令
-##### 输入输出指令IN/OUT
+##### **输入输出指令IN/OUT**
 ```assembly
 IN acc, port
 IN acc, DX
@@ -317,7 +317,7 @@ OUT DX, acc
 - DX寄存器中的值为**16位**端口地址
 
 #### 2.3 取偏移地址指令
-##### 取偏移地址指令LEA
+##### **取偏移地址指令LEA**
 ```assembly
 LEA reg, mem
 ```
@@ -325,7 +325,7 @@ LEA reg, mem
 - 目标操作数必须是16为通用寄存器, 通常是间址寄存器
 
 #### 2.4 算术运算指令
-##### 加法指令ADD
+##### **加法指令ADD**
 ```assembly
 ADD OPRD1, OPRD2
 ```
@@ -333,20 +333,20 @@ ADD OPRD1, OPRD2
 - 段寄存器不能作为加法指令的操作数
 - ADD指令对全部6个[状态标志位](#状态标志位)进行更新
 
-##### 带进位加法指令ADC
+##### **带进位加法指令ADC**
 ```assembly
 ADC OPRD1, OPRD2
 ```
 - 与ADD指令基本相同, 只是在加法运算时, **还会加上CF标志位的值**
 
-##### 加1指令INC
+##### **加1指令INC**
 ```assembly
 INC OPRD
 ```
 - OPRD不能是段寄存器或者立即数
 - INC指令对全部除了CF以外5个[状态标志位](#状态标志位)进行更新
 
-##### 无符号乘法指令MUL
+##### **无符号乘法指令MUL**
 ```assembly
 MUL OPRD
 ```
@@ -354,14 +354,14 @@ MUL OPRD
 - 乘法指令采用隐含寻址，隐含的是存放被乘数的累加器AL或AX及存放结果的AX(低16位)，DX(高16位)
 - 更新CF和OF标志位
 
-##### 有符号乘法指令IMUL
+##### **有符号乘法指令IMUL**
 ```assembly
 IMUL OPRD
 ```
 - 同[MUL指令](#无符号乘法指令mul)
 
 #### 2.5 逻辑运算指令
-##### 测试指令TEST
+##### **测试指令TEST**
 ```assembly
 TEST OPRD1, OPRD2
 ```
@@ -369,18 +369,18 @@ TEST OPRD1, OPRD2
 - **TEST指令对全部6个[状态标志位](#状态标志位)进行更新**
 
 #### 2.6 转移指令
-##### 无条件转移指令JMP
+##### **无条件转移指令JMP**
 ```assembly
 JMP label
 ```
 
-##### 为0跳转指令JZ
+##### **为0跳转指令JZ**
 ```assembly
 JZ label
 ```
 
 #### 2.7 循环控制指令
-##### 循环指令LOOP
+##### **循环指令LOOP**
 ```assembly
 LOOP label
 ```
@@ -391,21 +391,21 @@ JNZ label
 ```
 
 #### 2.8 中断控制指令
-##### 中断指令INT
+##### **中断指令INT**
 ```assembly
 INT n
 ```
 - n为中断向量号
 - INT 21H为[DOS系统调用](#DOS系统调用)
 
-##### 中断返回指令IRET
+##### **中断返回指令IRET**
 ```assembly
 IRET
 ```
 - 用于中断服务程序结束时返回主程序
 
 #### 2.9 处理器控制指令
-##### CLI/STI
+##### **CLI/STI**
 ```assembly
 CLI
 STI
@@ -413,7 +413,7 @@ STI
 - CLI指令禁止CPU响应外部中断请求
 - STI指令允许CPU响应外部中断请求
 
-##### CLD/STD
+##### **CLD/STD**
 ```assembly
 CLD
 STD
@@ -421,7 +421,7 @@ STD
 - CLD指令将DF标志位清零, 串操作从低地址向高地址
 - STD指令将DF标志位置1, 串操作从高地址向低地址
 
-##### HLT
+##### **HLT**
 ```assembly
 HLT
 ```
