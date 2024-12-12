@@ -31,13 +31,15 @@ tags:
 $$
 f\left( t\right) =f_{D}+f_{A}\left( t\right) \\
 $$
+
 其中直流分量$f_D$是信号在其持续时间内的平均值
-$$
-
-f_{D}=\dfrac{1}{t_{2}-t_{1}}\int _{t_{1}}^{t_{2}}f\left( t\right) dt\\
 
 $$
+f_{D}=\dfrac{1}{t_{2}-t_{1}}\int _{t_{1}}^{t_{2}}f\left( t\right) dt
+$$
+
 对于周期信号而言，直流分量是其一个周期内的平均值
+
 $$
 f_{D}=\dfrac{1}{T}\int _{t_1}^{t_{1}+T}f\left( t\right) dt
 $$
@@ -52,7 +54,7 @@ $$
 
 卷积（convolution）方法的原理就是将<u>信号分解为冲激信号之和</u>，借助系统的<u>冲激响应</u>，从而求解系统对任意激励信号的<u>零状态响应</u>。
 
-![image-20240623165056513](https://img-blog.csdnimg.cn/202103121106301.png)
+![image-20240623165056513](assets/202103121106301.png)
 
 ## 6.奇异函数平衡法求单位冲击响应
 
@@ -114,7 +116,7 @@ K_1=A+jB,K_2=A-jB=K_1^*
 $$
 
 
-![img](https://img-blog.csdnimg.cn/2020070311090936.png)
+![img](assets/2020070311090936.png)
 
 ## 12.拉普拉斯变换时域延时定理
 
@@ -186,7 +188,7 @@ $$
 
 ## 18.卷积和
 
-![](https://img-blog.csdn.net/20170112153514134)
+![](assets/20170112153514134)
 
 ## 19.z变换定义
 
@@ -205,13 +207,16 @@ $$
 ## 20.z变换的线性性质
 
 若
+
 $$
-\mathcal Z[x(n)]=X(z) \quad (R_{x1}<|z|<R_{x2})  \\
-\mathcal Z[y(n)]=Y(z) \quad (R_{y1}<|z|<R_{y2})
+\mathcal Z[x(n)]=X(z) \quad (R_{x1} < \lvert z \rvert < R_{x2})  \\
+\mathcal Z[y(n)]=Y(z) \quad (R_{y1} < \lvert z \rvert < R_{y2})
 $$
+
 则
+
 $$
-\mathcal Z [ax(n)+by(n)] = aX(z)+bY(z) \quad (max(R_{x1},R_{y1})<|z|<min(R_{x2},R_{y2}))
+\mathcal Z [ax(n)+by(n)] = aX(z)+bY(z) \quad (max(R_{x1},R_{y1}) < \lvert z \rvert < min(R_{x2},R_{y2}))
 $$
 
 ## 21.傅立叶变换
@@ -221,7 +226,7 @@ $$
 | 信号名称      | $f(t)$                                               | $F(\omega)$                                                  |
 | ------------- | ---------------------------------------------------- | ------------------------------------------------------------ |
 | *单边指数脉冲 | $Ee^{-at}u(t)$                                       | $\frac{E}{a+j\omega}$                                        |
-| 双边指数脉冲  | $Ee^{-a|t|}$                                         | $\frac{2aE}{a^2+\omega ^2}$                                  |
+| 双边指数脉冲  | $Ee^{-a\lvert t \rvert}$                                         | $\frac{2aE}{a^2+\omega ^2}$                                  |
 | **矩形脉冲    | $E(u(t+\tau)-u(t-\tau))$                             | $2E\tau Sa(\omega \tau)$                                     |
 | **抽样信号    | $Sa(\omega _ct)=\frac{\sin{(\omega_ct})}{\omega_ct}$ | $\frac{\pi}{\omega_c}(u(\omega+\omega_c)-u(\omega-\omega_c))$ |
 | 冲击函数      | $E\delta(t)$                                         | $E$                                                          |
@@ -235,7 +240,7 @@ $$
 | -------- | -------------------------------- | ---------------------------------------------------- |
 | 线性     | $\sum_{i=1}^{n}a_if_i(t)$        | $\sum_{i=1}^{n}a_iF_i(\omega)$                       |
 | 对称性   | $F(t)$                           | $2\pi f(-\omega)$                                    |
-| 尺度变换 | $f(at)$                          | $\frac{1}{|a|}F(\frac{\omega}{a})$                   |
+| 尺度变换 | $f(at)$                          | $\frac{1}{ |a| }F(\frac{\omega}{a})$                 |
 | 反褶     | $f(-t)$                          | $F(-\omega)$                                         |
 | 时移     | $f(t-t_0)$                       | $F(\omega )e^{-j\omega t_0}$                         |
 | 频移     | $f(t)e^{j\omega_0t}$             | $F(\omega-\omega_0)$                                 |
@@ -295,19 +300,19 @@ $$
 | ---------------------------------------------- | ----------------------------- |
 | $\delta(n-a)$                                  | $z^{-a}$                      |
 | $u(n)$                                         | $\frac{z}{z-1}$               |
-| $a^nu(n) \quad (|z|>|a|)$                      | $\frac{z}{z-a}$               |
+| $a^nu(n) \quad(  \lvert z \rvert > \lvert a \rvert  )$                     | $\frac{z}{z-a}$               |
 | $\frac{(n+1)(n+2)\cdots (n+m)}{m!}a^nu(n)$     | $\frac{z^{m+1}}{(z-a)^{m+1}}$ |
-| $-a^nu(-n-1) \quad (|z|<|a|)$                  | $\frac{z}{z-a}$               |
+| $-a^nu(-n-1) \quad(  \lvert z \rvert < \lvert a \rvert  )$                 | $\frac{z}{z-a}$               |
 | $-\frac{(n+1)(n+2)\cdots (n+m)}{m!}a^nu(-n-1)$ | $\frac{z^{m+1}}{(z-a)^{m+1}}$ |
 | $nu(n)$                                        | $\frac{z}{(z-1)^2}$           |
-| $na^nu(n) \quad (|z|>|a|)$                     | $\frac{az}{(z-a)^2}$          |
+| $na^nu(n) \quad(  \lvert z \rvert > \lvert a \rvert  )$                    | $\frac{az}{(z-a)^2}$          |
 | $\frac{n(n-1)\cdots (n-m+1)}{m!}u(n)$          | $\frac{z}{(z-1)^{m+1}}$       |
 
 | 序列        | z变换                | 收敛域                                      |
 | ----------- | -------------------- | ------------------------------------------- |
-| $x(-n)$     | $X(z^{-1})$          | $R_{x1}<|z^{-1}|<R_{x2}$                    |
-| $a^nx(n)$   | $X(a^{-1}z)$         | $|a|R_{x1}<|z|<|a|R_{x2}$                   |
-| $nx(n)$     | $-z\frac{dX(z)}{dz}$ | $R_{x1}<|z|<R_{x2}$                         |
-| $x(n-m)$    | $z^{-m}X(z)$         | $R_{x1}<|z|<R_{x2}$                         |
-| $x(n)*h(n)$ | $X(z)H(z)$           | $max(R_{x1},R_{h1})<|z|<min(R_{x2},R_{h2})$ |
+| $x(-n)$     | $X(z^{-1})$          | $R_{x1} < \lvert z \rvert^{-1} < R_{x2}$                |
+| $a^nx(n)$   | $X(a^{-1}z)$         | $  \lvert a \rvert R_{x1} <  \lvert z \rvert  <  \lvert a \rvert R_{x2}$               |
+| $nx(n)$     | $-z\frac{dX(z)}{dz}$ | $R_{x1} <  \lvert z \rvert  < R_{x2}$                     |
+| $x(n-m)$    | $z^{-m}X(z)$         | $R_{x1} <  \lvert z \rvert  < R_{x2}$                     |
+| $x(n)*h(n)$ | $X(z)H(z)$           | $max(R_{x1},R_{h1}) < \lvert z \rvert < min(R_{x2},R_{h2})$ |
 
