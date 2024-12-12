@@ -22,6 +22,16 @@ wrapStandAloneImageWithinParagraph = false
 block = true
 [markup.goldmark.renderer]
 unsafe = true
+[markup.goldmark.extensions.passthrough]
+enable = true
+delimiters.block = [
+  ["\\[", "\\]"],
+  ["$$", "$$"]
+]
+delimiters.inline = [
+  ["\\(", "\\)"],
+  ["$", "$"]
+]
 [markup.highlight]
 noClasses = false
 
@@ -68,9 +78,6 @@ siteStartYear = 2024
 
 # Syntax highlighting
 customSyntaxHighlighting = true
-[markup]
-[markup.highlight]
-noClasses = false
 
 # options
 stickyNav = true

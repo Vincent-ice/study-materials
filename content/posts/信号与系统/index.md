@@ -1,8 +1,8 @@
 ---
 title: 信号与系统
 description: 每题都说了考啥，你还不会？
-date: 2024-6-17T16:45:45+08:00
-lastmod: 2024-6-24T19:10:45+08:00
+date: 2024-06-17T16:45:45+08:00
+lastmod: 2024-06-24T19:10:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:
