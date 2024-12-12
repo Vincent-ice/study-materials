@@ -5,8 +5,6 @@ date: 2024-12-11T16:45:45+08:00
 lastmod: 2024-12-11T19:10:45+08:00
 author: Vincent Ice
 cover: cover.jpg
-images:
-  - cover.jpg
 categories:
   - 微机原理
 tags:

@@ -5,8 +5,6 @@ date: 2024-6-17T16:45:45+08:00
 lastmod: 2024-6-24T19:10:45+08:00
 author: Vincent Ice
 cover: cover.jpg
-images:
-  - cover.jpg
 categories:
   - 信号与系统
 tags:
