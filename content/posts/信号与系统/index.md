@@ -52,7 +52,7 @@ $$
 
 卷积（convolution）方法的原理就是将<u>信号分解为冲激信号之和</u>，借助系统的<u>冲激响应</u>，从而求解系统对任意激励信号的<u>零状态响应</u>。
 
-![image-20240623165056513](https://img-blog.csdnimg.cn/202103121106301.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyMjM1MTI5,size_16,color_FFFFFF,t_70)
+![image-20240623165056513](https://img-blog.csdnimg.cn/202103121106301.png)
 
 ## 6.奇异函数平衡法求单位冲击响应
 
@@ -114,7 +114,7 @@ K_1=A+jB,K_2=A-jB=K_1^*
 $$
 
 
-![img](https://img-blog.csdnimg.cn/2020070311090936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NDMxNjkw,size_16,color_FFFFFF,t_70)
+![img](https://img-blog.csdnimg.cn/2020070311090936.png)
 
 ## 12.拉普拉斯变换时域延时定理
 
@@ -186,7 +186,7 @@ $$
 
 ## 18.卷积和
 
-![](https://img-blog.csdn.net/20170112153514134?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdGFpeWFuZ3NoZW5uaWFv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://img-blog.csdn.net/20170112153514134)
 
 ## 19.z变换定义
 

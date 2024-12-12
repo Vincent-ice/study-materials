@@ -67,7 +67,10 @@ siteStartYear = 2024
 # favicon = "favicon.ico"
 
 # Syntax highlighting
-# customSyntaxHighlighting = true
+customSyntaxHighlighting = true
+[markup]
+[markup.highlight]
+noClasses = false
 
 # options
 stickyNav = true
