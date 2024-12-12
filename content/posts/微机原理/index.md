@@ -2,7 +2,7 @@
 title: 微机原理
 description: 根据期末复习ppt随便写了点
 date: 2024-12-11T16:45:45+08:00
-lastmod: 2024-12-11T19:10:45+08:00
+lastmod: 2024-12-12T22:57:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:
@@ -404,7 +404,7 @@ JNZ label
 INT n
 ```
 - n为中断向量号
-- INT 21H为[DOS系统调用](#DOS系统调用)
+- INT 21H为[DOS系统调用](#3-dos中断调用简表)
 
 ##### **中断返回指令IRET**
 ```assembly
@@ -435,7 +435,7 @@ HLT
 ```
 - 使CPU进入停机状态
 
-> 全部指令参考[附录](#1-8086指令列表)
+> 全部指令参考[附录](#1-8086指令简表)
 
 ## 四 汇编语言程序设计
 ### 1 特殊运算符
