@@ -587,24 +587,24 @@ CSEG ENDS 
 
 ## 五 存储器系统
 ### 1 存储器的分类
-<table style="border-collapse: collapse; width: 100%; float: left;" border="1">
+<table style="border-collapse: collapse; width: 100%; border-color: #000000; border-style: solid; float: left;" border="1">
 <tbody>
 <tr>
-<td style="width: 24.2927%;" rowspan="7">内存储器</td>
-<td style="width: 18.9114%;" rowspan="2" width="218">随机存储器RAM</td>
+<td style="width: 24.2927%; text-align: center; vertical-align: middle;" rowspan="7">内存储器</td>
+<td style="width: 18.9114%; text-align: left; vertical-align: middle;" rowspan="2" width="218">随机存储器RAM</td>
 <td style="width: 18.9114%;" width="184">静态存储器SRAM</td>
 <td style="width: 18.9114%;" width="174">双稳态触发器结构, 寄存器</td>
-<td class="xl65" style="height: 27.6pt; width: 18.9114%;" rowspan="2" width="64" height="36">掉电丢失</td>
+<td class="xl65" style="height: 27.6pt; width: 18.9114%; vertical-align: middle;" rowspan="2" width="64" height="36">掉电丢失</td>
 </tr>
 <tr>
 <td style="width: 18.9114%;" width="184">动态存储器DRAM</td>
 <td style="width: 18.9114%;" width="174">电容存储, 内存</td>
 </tr>
 <tr>
-<td style="width: 18.9114%;" rowspan="5" width="218">只读存储器ROM</td>
+<td style="width: 18.9114%; text-align: left; vertical-align: middle;" rowspan="5" width="218">只读存储器ROM</td>
 <td style="width: 18.9114%;" width="184">掩膜ROM</td>
 <td style="width: 18.9114%;" width="174">只读, 不可更改</td>
-<td class="xl65" style="height: 69pt; width: 18.9114%;" rowspan="5" width="64" height="90">掉电不丢失</td>
+<td class="xl65" style="height: 69pt; width: 18.9114%; vertical-align: middle;" rowspan="5" width="64" height="90">掉电不丢失</td>
 </tr>
 <tr>
 <td style="width: 18.9114%;" width="184">可编程PROM</td>
