@@ -195,6 +195,10 @@ CPU对HOLD请求信号的响应：所有三态引脚变为高阻态，同时使�
 <img src="assets/写总线周期.jpg" alt="写总线周期" style="zoom: 67%;" />
 </td>
 </tr>
+<tr>
+<td style="width: 50%;" align="center">读总线周期</td>
+<td style="width: 50%;" align="center">写总线周期</td>
+</tr>
 </tbody>
 </table>
 
@@ -293,6 +297,10 @@ PUSH src
 <td style="width: 50%;">
 <img src="assets/出栈.jpg" alt="出栈" style="zoom: 100%;" />
 </td>
+</tr>
+<tr>
+<td style="width: 50%;" align="center">入栈</td>
+<td style="width: 50%;" align="center">出栈</td>
 </tr>
 </tbody>
 </table>
@@ -431,12 +439,199 @@ HLT
 > 全部指令参考[附录](#全部指令)
 
 ## 四 汇编语言程序设计
+### 1 特殊运算符
+#### OFFSET
+```assembly
+MOV SI, OFFSET DATA
+```
+- 用于取得数据的偏移地址
+- 相当于 `LEA SI, DATA`
+
+#### SEG
+```assembly
+MOV AX, SEG DATA
+```
+- 用于取得数据的段地址
+
+#### PTR
+```assembly
+CALL DWORD PTR [BX]
+MOV AL, BYTE PTR [SI]
+```
+- 用于指定操作数的类型
+- 多用于确保操作数的类型与指令要求的类型一致
 
 
+### 2 数据定义伪指令
+#### 2.1 格式
+```assembly
+[变量名] 伪操作 操作数 [, 操作数 ...]
+DATA DB 11H,33H
+STR DB 'HELLO'
+DATA2 DW ?
+```
+#### 2.2 伪操作
+1. DB(Data Byte): 每个操作数占**一个**字节
+2. DW(Data Word): 每个操作数占**两个**字节
+3. DD(Data Doubleword): 每个操作数占**四个**字节
+4. DQ(Data Quadword): 每个操作数占**八个**字节
+5. DT(Data Ten Bytes): 每个操作数占**十个**字节, 存储的是压缩BCD数
+
+#### 2.3 重复操作符
+```assembly
+[变量名] 伪操作 重复次数 DUP (操作数 [, 操作数 ...])
+DATA1 DB 20 DUP (30H)
+DATA2 DB 20,0,20 DUP (?)
+```
+
+### 3 题目
+#### 3.1 从键盘上读入一串大写字母，并显示相应的小写字母串
+```assembly
+DSEG SEGMENT
+  STRING DB 20,0,20 DUP(?)
+DSEG ENDS
+
+CSEG SEGMENT
+  ASSUME CS:CSEG,DS:DSEG
+START: 	
+  MOV AX,DATA
+	MOV DS,AX       ; DS=DATA
+
+	LEA DX,STRING
+	MOV AH,0AH
+	INT 21H         ; 读入字符串
+
+	XOR CX,CX
+	MOV CL,STRING+1
+	MOV BX,DX       
+LPP: 	
+  MOV AL,[BX+2]
+	INC BX          ; BX指向下一个字符
+
+	ADD AL,20H      ; 大写转小写
+
+	MOV DL,AL
+	MOV AH,2
+	INT 21H         ; 显示字符
+
+	LOOP LPP
+
+	MOV AH,4CH
+	INT 21H         ; 中断
+CSEG ENDS
+	END START
+```
+
+#### 3.2 求从DATA开始的5个无符号字节数的和，结果放在SUM字单元里
+```assembly
+DSEG SEGMENT
+  DATA DB 10,20,30,40,50
+  SUM DW  ?
+DSEG ENDS
+
+CSEG SEGMENT
+  ASSUME CS: CSEG,DS: DSEG 
+START: 	
+  MOV AX,DSEG
+	MOV DS,AX       ; DS=DSEG
+
+	LEA SI, DATA    ; SI作为数据指针
+	MOV CX,5        ; CX作为计数器
+	XOR AX,AX       ; AX作为累加器, 清零
+LPP:	
+  ADD AL,[SI]     ; 累加
+	ADC AH,0        ; 进位加
+	INC SI          ; SI指向下一个数据
+	LOOP LPP
+
+  MOV SUM,AX      ; 结果存入SUM
+
+	MOV AH,4CH
+	INT 21H         ; 中断
+CSEG ENDS
+	END START
+```
+
+#### 3.3 试编写求两个无符号双字长数之和的程序.  两数分别在 MEM1 和 MEM2 单元中,和放在 SUM 单元
+```assembly
+DSEG SEGMENT 
+  MEM1 DW 1122H,3344H 
+  MEM2 DW 5566H,7788H 
+  SUM DW 2 DUP(?) 
+DSEG ENDS 
+
+CSEG SEGMENT 
+  ASSUME CS:CSEG,DS:DSEG 
+START:   
+  MOV AX,DSEG 
+	MOV DS,AX 
+	LEA BX,MEM1 
+	LEA SI,MEM2 
+	LEA DI,SUM      ; 初始化指针寄存器
+	MOV CL,2        ; 计数器
+  CLC             ; CF=0, 确保加法正确
+AGAIN:   
+  MOV AX,[BX] 
+	ADC AX,[SI]     ; AX=[BX]+[SI]+CF
+	MOV [DI],AX     ; 结果存入SUM
+
+	ADD BX,2 
+	ADD SI,2 
+	ADD DI,2        ; 指针寄存器指向下一个数据, 注意双字长需要加2
+	LOOP AGAIN 
+	HLT 
+CSEG ENDS 
+  END START
+```
 
 
+## 五 存储器系统
+### 1 存储器的分类
+<table style="border-collapse: collapse; width: 100%; float: left;" border="1">
+<tbody>
+<tr>
+<td style="width: 24.2927%;" rowspan="7">内存储器</td>
+<td style="width: 18.9114%;" rowspan="2" width="218">随机存储器RAM</td>
+<td style="width: 18.9114%;" width="184">静态存储器SRAM</td>
+<td style="width: 18.9114%;" width="174">双稳态触发器结构, 寄存器</td>
+<td class="xl65" style="height: 27.6pt; width: 18.9114%;" rowspan="2" width="64" height="36">掉电丢失</td>
+</tr>
+<tr>
+<td style="width: 18.9114%;" width="184">动态存储器DRAM</td>
+<td style="width: 18.9114%;" width="174">电容存储, 内存</td>
+</tr>
+<tr>
+<td style="width: 18.9114%;" rowspan="5" width="218">只读存储器ROM</td>
+<td style="width: 18.9114%;" width="184">掩膜ROM</td>
+<td style="width: 18.9114%;" width="174">只读, 不可更改</td>
+<td class="xl65" style="height: 69pt; width: 18.9114%;" rowspan="5" width="64" height="90">掉电不丢失</td>
+</tr>
+<tr>
+<td style="width: 18.9114%;" width="184">可编程PROM</td>
+<td style="width: 18.9114%;">在一次编程后只读</td>
+</tr>
+<tr>
+<td style="width: 18.9114%;">可读写EPROM</td>
+<td style="width: 18.9114%;">可重复写入, 使用光擦除</td>
+</tr>
+<tr>
+<td style="width: 18.9114%;">电可擦除EEPROM</td>
+<td style="width: 18.9114%;">可重复写入, 使用电擦除</td>
+</tr>
+<tr>
+<td style="width: 18.9114%;">闪存FLASH</td>
+<td style="width: 18.9114%;">U盘</td>
+</tr>
+</tbody>
+</table>
 
+### 2 存储器与CPU的连接
+根据题目中给出的地址, 将高位不变的部分接入74138中, 将对应的输出接入存储器的CS片选端, 例如:
+地址范围为: `38000H~39FFFH`
+其高位不变部分为\[19:13\]: `0011 100`
+![存储器与CPU的连接](assets/存储器连接.jpg)
 
+## 六 输入输出和中断系统
 
 
 
