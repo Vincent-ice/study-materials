@@ -37,7 +37,7 @@ tags:
 #### 1.2 总线接口单元BIU
 总线接口单元BIU负责CPU与存储器、I/O接口之间的信息传送. 它由**段寄存器**、**指令指针寄存器**、指令队列、地址加法器以及总线控制逻辑组成. 8088的指令队列长度为4字节, 8086的指令队列长度为6字节. 
 
-### **2 8086内部寄存器**
+### 2 8086内部寄存器
 8086CPU内部有14个16位寄存器, 其中有8个16位通用寄存器, 4个16位变址寄存器, 1个16位指令指针寄存器, 1个16位标志寄存器.
 #### 2.1 通用寄存器
 ##### 数据寄存器
@@ -109,64 +109,64 @@ FLAGS称为标志寄存器或程序状态字(PSW), 它是16位寄存器, 但只�
 CPU访问存储器或I/O接口时, 从这些引脚送出地址信号A8～A15. 
 
 #### AD0~AD7
-地址/数据复用引脚（双向、三态）。
-当ALE=1时，这些引脚上传输的是地址，而不是数据。
+地址/数据复用引脚（双向、三态）. 
+当ALE=1时, 这些引脚上传输的是地址, 而不是数据. 
 
 #### IO/~M
-IO/存储器控制（输出、三态）。
-低电平表示CPU当前访问的是存储器，高电平表示访问的是I/O接口。
+IO/存储器控制（输出、三态）. 
+低电平表示CPU当前访问的是存储器, 高电平表示访问的是I/O接口. 
 
 #### ~WR
-写控制（输出、三态）。
-低电平表示CPU正在对存储器或I/O接口进行写操作。
+写控制（输出、三态）. 
+低电平表示CPU正在对存储器或I/O接口进行写操作. 
 
 #### DT/~R
-数据传送方向控制（输出、三态）。
-用于确定数据传送的方向。高电平时表示CPU向存储器或I/O接口发送数据；低电平表示CPU从存储器或I/O接口接收数据。此信号常用于控制总线收发器的传送方向。
+数据传送方向控制（输出、三态）. 
+用于确定数据传送的方向. 高电平时表示CPU向存储器或I/O接口发送数据; 低电平表示CPU从存储器或I/O接口接收数据. 此信号常用于控制总线收发器的传送方向. 
 
 #### ~DEN
-数据允许（输出、三态）。
-低电平表示数据总线上有有效数据。它在每次访问内存或I/O接口以及在中断响应期间有效。它常用作数据总线驱动器的片选信号。
+数据允许（输出、三态）. 
+低电平表示数据总线上有有效数据. 它在每次访问内存或I/O接口以及在中断响应期间有效. 它常用作数据总线驱动器的片选信号. 
 
 #### ALE
-地址锁存允许（输出、三态）。
-高电平表示地址线上有效地址。它常作为锁存控制信号将A0～A19锁存到地址锁存器。
+地址锁存允许（输出、三态）. 
+高电平表示地址线上有效地址. 它常作为锁存控制信号将A0～A19锁存到地址锁存器. 
 
 #### ~RD
-读控制（输出、三态）。
-低电平表示CPU正在对存储器或I/O接口进行读操作。
+读控制（输出、三态）. 
+低电平表示CPU正在对存储器或I/O接口进行读操作. 
 
 #### READY
-准备就绪（输入、高电平有效）。
-它是被访问的内存或I/O接口发出的响应信号，高电平表示存储器或I/O设备已准备好，可以进行数据传送。若存储器或或I/O设备没准备好，则可将此引脚拉低。CPU在总线周期的T3采样READY引脚，若为低电平，CPU将自动插入1个或多个等待周期Tw。直到READY变为高电平后，CPU才脱离等待状态，继续执行后续操作。
+准备就绪（输入、高电平有效）. 
+它是被访问的内存或I/O接口发出的响应信号, 高电平表示存储器或I/O设备已准备好, 可以进行数据传送. 若存储器或或I/O设备没准备好, 则可将此引脚拉低. CPU在总线周期的T3采样READY引脚, 若为低电平, CPU将自动插入1个或多个等待周期Tw. 直到READY变为高电平后, CPU才脱离等待状态, 继续执行后续操作. 
 
 #### INTR
-可屏蔽中断请求（输入、高电平有效）。
-CPU在每条指令的最后一个周期对此引脚进行采样，以决定是否进入中断响应周期。此信号可用软件屏蔽。
+可屏蔽中断请求（输入、高电平有效）. 
+CPU在每条指令的最后一个周期对此引脚进行采样, 以决定是否进入中断响应周期. 此信号可用软件屏蔽. 
 
 #### NMI
-非屏蔽中断请求（输入、上升沿有效）。
-此信号不能用软件屏蔽。若此信号有效，CPU在当前指令执行结束后就进入NMI中断过程。
+非屏蔽中断请求（输入、上升沿有效）. 
+此信号不能用软件屏蔽. 若此信号有效, CPU在当前指令执行结束后就进入NMI中断过程. 
 
 #### RESET
-系统复位（输入、高电平有效）。
-为使CPU完成内部复位过程，该信号至少要保持4个时钟周期。复位后CPU内部寄存器的状态如下表所示。当RESET返回低电平时，CPU将重新启动。 
+系统复位（输入、高电平有效）. 
+为使CPU完成内部复位过程, 该信号至少要保持4个时钟周期. 复位后CPU内部寄存器的状态如下表所示. 当RESET返回低电平时, CPU将重新启动.  
 
 #### ~INTA
-中断响应（输出、低电平有效）。
-CPU对INTR信号的响应。在响应过程中，CPU在此引脚连续送出两个负脉冲，可用作外部中断源的中断向量码的读选通信号。
+中断响应（输出、低电平有效）. 
+CPU对INTR信号的响应. 在响应过程中, CPU在此引脚连续送出两个负脉冲, 可用作外部中断源的中断向量码的读选通信号. 
 
 #### HOLD
-总线保持请求（输入、高电平有效）。
-当某一总线主控设备要占用系统总线时，通过此引脚向CPU提出请求。
+总线保持请求（输入、高电平有效）. 
+当某一总线主控设备要占用系统总线时, 通过此引脚向CPU提出请求. 
 
 #### HLDA
-总线保持响应（输出、高电平有效）。
-CPU对HOLD请求信号的响应：所有三态引脚变为高阻态，同时使此引脚变为高电平，表示处理器已放弃对总线的控制。当CPU检测到HOLD信号无效后，就立即使此引脚变为低电平，同时恢复对总线的控制。
+总线保持响应（输出、高电平有效）. 
+CPU对HOLD请求信号的响应: 所有三态引脚变为高阻态, 同时使此引脚变为高电平, 表示处理器已放弃对总线的控制. 当CPU检测到HOLD信号无效后, 就立即使此引脚变为低电平, 同时恢复对总线的控制. 
 
 #### ~SS0
-系统状态信号输出。
-它与IO/#M和DT/#R信号决定了最小模式下当前总线周期的状态。三者的状态组合所表示的处理器操作见下表。
+系统状态信号输出. 
+它与IO/#M和DT/#R信号决定了最小模式下当前总线周期的状态. 三者的状态组合所表示的处理器操作见下表. 
 | IO/~M | DT/~R | ~SS0 | 操作 |
 | :-- | :-- | :-- | :-- |
 | 1 | 0 | 0 | 发出中断响应信号 |
@@ -180,7 +180,7 @@ CPU对HOLD请求信号的响应：所有三态引脚变为高阻态，同时使�
 
 ### 6 总线及工作时序
 #### 6.1 工作时序
-总线周期：CPU完成一次访问内存（或接口）操作所需要的时间。
+总线周期: CPU完成一次访问内存（或接口）操作所需要的时间. 
 > 一个总线周期至少包括4个时钟周期
 
 <table>
@@ -201,7 +201,7 @@ CPU对HOLD请求信号的响应：所有三态引脚变为高阻态，同时使�
 </table>
 
 #### 6.2 总线结构
-- 根据传送信息的类型分：**数据总线**、**地址总线**和**控制总线**. 
+- 根据传送信息的类型分: **数据总线**、**地址总线**和**控制总线**. 
 - 按层次结构分: **CPU总线**、**系统总线**和**外部总线**.
 
 ## 三 8086指令系统
@@ -266,8 +266,8 @@ MOV dest, src
 - 两操作数**字长必须相同**
 - 两操作数不允许同时为存储器操作数
 - 两操作数不允许同时为段寄存器
-- 在源操作数是立即数时，目标操作数不能是段寄存器
-- IP和CS不作为目标操作数，FLAGS一般也不作为操作数在指令中出现
+- 在源操作数是立即数时, 目标操作数不能是段寄存器
+- IP和CS不作为目标操作数, FLAGS一般也不作为操作数在指令中出现
 
 ##### **栈控制指令POP/PUSH**
 ```assembly
@@ -275,10 +275,10 @@ POP dest
 PUSH src
 ```
 - 指令的操作数必须是16位的
-- 操作数可以是寄存器或存储器两单元，但不能是立即数
-- PUSH CS指令合法，而POP CS指令非法
+- 操作数可以是寄存器或存储器两单元, 但不能是立即数
+- PUSH CS指令合法, 而POP CS指令非法
 - PUSH和POP指令在程序中一般成对出现
-- PUSH指令的操作方向是从高地址向低地址，而POP指令的操作正好相反
+- PUSH指令的操作方向是从高地址向低地址, 而POP指令的操作正好相反
 
 > 堆栈: 内存中一块特定区域
 > 1. 每次存取都是一个字(16位)
@@ -287,21 +287,22 @@ PUSH src
 > 4. POP: 先取出栈顶数据, 再SP=SP+2
 > 5. 遵循后进先出(LIFO)原则
 > <table>
-<tbody>
-<tr>
-<td style="width: 50%;">
-<img src="assets/入栈.jpg" alt="入栈" style="zoom: 100%;" />
-</td>
-<td style="width: 50%;">
-<img src="assets/出栈.jpg" alt="出栈" style="zoom: 100%;" />
-</td>
-</tr>
-<tr>
-<td style="width: 50%;" align="center">入栈</td>
-<td style="width: 50%;" align="center">出栈</td>
-</tr>
-</tbody>
-</table>
+> <tbody>
+> <tr>
+> <td style="width: 50%;">
+> <img src="assets/入栈.jpg" alt="入栈" style="zoom: 100%;" />
+> </td>
+> <td style="width: 50%;">
+> <img src="assets/出栈.jpg" alt="出栈" style="zoom: 100%;" />
+> </td>
+> </tr>
+> <tr>
+> <td style="width: 50%;" align="center">入栈</td>
+> <td style="width: 50%;" align="center">出栈</td>
+> </tr>
+> </tbody>
+> </table>
+> 
 
 ##### **寄存器交换指令XCHG**
 ```assembly
@@ -358,7 +359,7 @@ INC OPRD
 MUL OPRD
 ```
 - OPRD不能是立即数
-- 乘法指令采用隐含寻址，隐含的是存放被乘数的累加器AL或AX及存放结果的AX(低16位)，DX(高16位)
+- 乘法指令采用隐含寻址, 隐含的是存放被乘数的累加器AL或AX及存放结果的AX(低16位), DX(高16位)
 - 更新CF和OF标志位
 
 ##### **有符号乘法指令IMUL**
@@ -372,7 +373,7 @@ IMUL OPRD
 ```assembly
 TEST OPRD1, OPRD2
 ```
-- 在不写回操作数的情况下，对两个操作数进行逻辑与运算
+- 在不写回操作数的情况下, 对两个操作数进行逻辑与运算
 - **TEST指令对全部6个[状态标志位](#状态标志位)进行更新**
 
 #### 2.6 转移指令
@@ -434,7 +435,7 @@ HLT
 ```
 - 使CPU进入停机状态
 
-> 全部指令参考[附录](#全部指令)
+> 全部指令参考[附录](#1-8086指令列表)
 
 ## 四 汇编语言程序设计
 ### 1 特殊运算符
@@ -483,7 +484,7 @@ DATA2 DB 20,0,20 DUP (?)
 ```
 
 ### 3 题目
-#### 3.1 从键盘上读入一串大写字母，并显示相应的小写字母串
+#### 3.1 从键盘上读入一串大写字母, 并显示相应的小写字母串
 ```assembly
 DSEG SEGMENT
   STRING DB 20,0,20 DUP(?)
@@ -520,7 +521,7 @@ CSEG ENDS
 	END START
 ```
 
-#### 3.2 求从DATA开始的5个无符号字节数的和，结果放在SUM字单元里
+#### 3.2 求从DATA开始的5个无符号字节数的和, 结果放在SUM字单元里
 ```assembly
 DSEG SEGMENT
   DATA DB 10,20,30,40,50
@@ -630,6 +631,459 @@ CSEG ENDS 
 ![存储器与CPU的连接](assets/存储器连接.jpg)
 
 ## 六 输入输出和中断系统
+### 1 I/O端口及其编址方式
+#### 1.1 I/O接口主要功能
+1. I/O地址译码与设备选择. 保证任一时刻仅有一个外设与CPU进行数据传输. 
+2. 信息的输入输出, 并对外设随时进行监测、控制和管理, 必要时, 还可以通过I/O接口向CPU发送中断请求. 
+3. 命令、数据和状态的缓冲与锁存. 以缓解CPU与外设之间工作速度的差异, 保证信息交换的同步. 
+4. 信号电平与类型的转换, I/O接口还要实现信息格式变换、电平转换、码制转换、传送管理以及联络控制等功能. 
 
+#### 1.2 I/O端口的要求
+- 对输入接口要求具有对数据的控制能力(三态门)
+- 对输出接口要求对数据具有锁存能力(锁存器)
+
+#### 1.3 I/O端口的编址方式
+##### I/O端口与内存单元统一编址
+把每个I/O端口都当做一个存储单元看待, 端口与存储器单元在同一个地址空间中进行编址. 通常是在整个地址空间中划分出一小块连续的地址分配给I/О端口. 被端口占用了的地址, 存储器不能再使用. 
+特点:
+- 指令及控制信号统一, 更加灵活
+- 内存地址资源减少
+
+##### I/O端口独立编址(8086/8088)
+I/О端口独立编址时, 内存地址空间和外设地址空间是相互独立的. 例如,8086/8088系统的内存地址范围为00000H～FFFFFH, 而外设端口的地址范围为0000H～FFFFH, 这两个地址空间相互独立, 互不影响. CPU在寻址内存和外设时, 使用不同的控制信号来区分当前是对内存操作还是对1/О端口操作. 
+特点:
+- 内存地址资源充分利用
+- 能够应用于端口的指令较少
+
+### 2 基本输入输出方法
+<table style="border-collapse: collapse; width: 100.031%;" border="1">
+<tbody>
+<tr>
+<td style="width: 8%;"><strong>方法</strong></td>
+<td style="width: 12.5269%;"><strong>适用</strong></td>
+<td style="width: 10%;"><strong>优点</strong></td>
+<td style="width: 10%;"><strong>缺点</strong></td>
+</tr>
+<tr>
+<td style="width: 8%;">无条件传送</td>
+<td style="width: 12.5269%;">总是准备好的外设, 如开关, LED</td>
+<td style="width: 10%;">软件及接口硬件简单</td>
+<td style="width: 10%;">只适用于简单外设, 适应范围较窄</td>
+</tr>
+<tr>
+<td style="width: 8%;">查询工作方式</td>
+<td style="width: 12.5269%;">外设并不总是准备好, 而且对传送速率、传送效率要求不高的场合</td>
+<td style="width: 10%;">软件比较简单</td>
+<td style="width: 10%;">CPU效率低, 数据传送的实时性差, 速度较慢</td>
+</tr>
+<tr>
+<td style="width: 8%;">中断控制方式</td>
+<td style="width: 12.5269%;">需要实时被CPU处理的场合</td>
+<td style="width: 10%;">CPU效率高, 实时性好, 速度快</td>
+<td style="width: 10%;">程序编制较为复杂</td>
+</tr>
+<tr>
+<td style="width: 8%;">DMA控制方式</td>
+<td style="width: 12.5269%;">高速外设以及批量数据交换的场合</td>
+<td style="width: 10%;">很高的传输速率</td>
+<td style="width: 10%;">需要额外软硬件支持</td>
+</tr>
+</tbody>
+</table>
+
+### 3 中断系统
+#### 3.1 中断处理过程
+1. 中断请求
+2. 中断源识别(中断判优)
+3. 中断响应
+4. 中断服务
+5. 中断返回
+
+#### 3.2 中断向量表
+根据中断类型码找到中断服务程序的入口地址的表, 每个中断向量占4个字节, 所以中断向量在表中存放地址为`中断类型码*4`
+
+## 七 常用数字接口电路
+### 1 基本通信方式
+<table style="border-collapse: collapse; width: 100%;" border="1">
+<tbody>
+<tr>
+<td style="width: 32.2581%;">通信方式</td>
+<td style="width: 32.2581%;">优点</td>
+<td style="width: 32.2581%;">缺点</td>
+</tr>
+<tr>
+<td style="width: 32.2581%;">串行通信</td>
+<td style="width: 32.2581%;">设备简单, 成本低, 传输线少</td>
+<td style="width: 32.2581%;">传输速度慢</td>
+</tr>
+<tr>
+<td style="width: 32.2581%;">并行通信</td>
+<td style="width: 32.2581%;">传输速度快, 效率高</td>
+<td style="width: 32.2581%;">设备造价高, 复杂</td>
+</tr>
+</tbody>
+</table>
+
+### 2 可编程定时/计数器8253
+8253有3个相同的16位计数器, 它们相互独立, 可以分别按各自的方式进行工作, 每个计数器都包括一个16位的初值寄存器、一个计数执行单元和一个输出锁存器. 
+
+#### 2.1 8253与系统连接
+- 地址线/片选控制[同6264和系统连接](#存储器与CPU的连接)
+- {A1, A0}为地址选择信号线
+  - 00: 计数器0
+  - 01: 计数器1
+  - 10: 计数器2
+  - 11: 控制字寄存器
+
+#### 2.2 8253的工作方式
+##### 工作方式0--计数结束中断
+- 软件启动
+- 不自动重复计数
+- Gate=0时暂停计数
+- 计数过程中如果修改计数初值, 会用新的初值重新计数
+![8253工作方式0](assets/8253工作方式0.jpg)
+
+##### 工作方式1--可重复触发的单稳态触发器
+- 硬件启动
+- 不自动重复计数
+- Gate上升沿触发计数, 可重复触发
+![8253工作方式1](assets/8253工作方式1.jpg)
+
+##### 工作方式2--频率发生器
+- 硬件/软件启动
+- 自动重复计数
+- Gate上升沿启动并置入初值, 低电平暂停
+- 当计数到1时输出为1个时钟周期的负脉冲
+![8253工作方式2](assets/8253工作方式2.jpg)
+
+##### 工作方式3--方波发生器
+- 硬件/软件启动
+- 自动重复计数
+- Gate上升沿启动并置入初值, 低电平暂停
+- 当计数到N/2时输出低电平, 计数到0时输出高电平
+![8253工作方式3](assets/8253工作方式3.jpg)
+
+##### 工作方式4--软件触发选通
+- 软件启动
+- 不自动重复计数
+- Gate高电平时计数
+- 计数结束后输出1个时钟周期的负脉冲
+- 特点与[方式0](#工作方式0--计数结束中断)相似
+![8253工作方式4](assets/8253工作方式4.jpg)
+
+##### 工作方式5--硬件触发选通
+- 硬件启动
+- 不自动重复计数
+- Gate上升沿触发计数
+- 计数结束后输出1个时钟周期的负脉冲
+![8253工作方式5](assets/8253工作方式5.jpg)
+
+#### 2.3 8253控制字
+<table style="border-collapse: collapse; width: 100%;" border="1">
+<tbody>
+<tr>
+<td style="width: 25.0615%; text-align: center;" colspan="2">计数器选择</td>
+<td style="text-align: center; width: 25.0615%;" colspan="2">计数长度选择</td>
+<td style="width: 37.5922%; text-align: center;" colspan="3">工作方式选择</td>
+<td style="width: 12.3001%; text-align: center;">计数制选择</td>
+</tr>
+<tr>
+<td style="width: 12.5307%; text-align: center;">SC1</td>
+<td style="width: 12.5307%; text-align: center;">SC0</td>
+<td style="width: 12.5307%; text-align: center;">RL1</td>
+<td style="width: 12.5307%; text-align: center;">RL0</td>
+<td style="width: 12.5307%; text-align: center;">M2</td>
+<td style="width: 12.5307%; text-align: center;">M1</td>
+<td style="width: 12.5307%; text-align: center;">M0</td>
+<td style="width: 12.3001%; text-align: center;">BCD</td>
+</tr>
+<tr>
+<td style="width: 12.5307%;">00</td>
+<td style="width: 12.5307%;">计数器0</td>
+<td style="width: 12.5307%;">00</td>
+<td style="width: 12.5307%;">将计数器中的数据锁存于缓冲器</td>
+<td style="width: 12.5307%;">000</td>
+<td style="width: 25.0615%;" colspan="2">方式0</td>
+<td style="width: 12.3001%; text-align: center; vertical-align: middle;" rowspan="6">高电平有效</td>
+</tr>
+<tr>
+<td style="width: 12.5307%;">01</td>
+<td style="width: 12.5307%;">计数器1</td>
+<td style="width: 12.5307%;">01</td>
+<td style="width: 12.5307%;">只读/写计数器低8位</td>
+<td style="width: 12.5307%;">001</td>
+<td style="width: 25.0615%;" colspan="2">方式1</td>
+</tr>
+<tr>
+<td style="width: 12.5307%;">10</td>
+<td style="width: 12.5307%;">计数器2</td>
+<td style="width: 12.5307%;">10</td>
+<td style="width: 12.5307%;">只读/写计数器高8位</td>
+<td style="width: 12.5307%;">x10</td>
+<td style="width: 25.0615%;" colspan="2">方式2</td>
+</tr>
+<tr>
+<td style="width: 12.5307%;">11</td>
+<td style="width: 12.5307%;">非法</td>
+<td style="width: 12.5307%;">11</td>
+<td style="width: 12.5307%;">先读/写计数器低8位, 再读/写计数器高8位</td>
+<td style="width: 12.5307%;">x11</td>
+<td style="width: 25.0615%;" colspan="2">方式3</td>
+</tr>
+<tr>
+<td style="width: 12.5307%;">&nbsp;</td>
+<td style="width: 12.5307%;">&nbsp;</td>
+<td style="width: 12.5307%;">&nbsp;</td>
+<td style="width: 12.5307%;">&nbsp;</td>
+<td style="width: 12.5307%;">100</td>
+<td style="width: 25.0615%;" colspan="2">方式4</td>
+</tr>
+<tr>
+<td style="width: 12.5307%;">&nbsp;</td>
+<td style="width: 12.5307%;">&nbsp;</td>
+<td style="width: 12.5307%;">&nbsp;</td>
+<td style="width: 12.5307%;">&nbsp;</td>
+<td style="width: 12.5307%;">101</td>
+<td style="width: 25.0615%;" colspan="2">方式5</td>
+</tr>
+</tbody>
+</table>
+
+#### 2.4 8253的编程
+**题目:** 若8253芯片的接口地址为D0D0H—D0D3H, 时钟信号频率为2MHz, 利用计数器0、1、2分别产生周期为10us的方波及每1ms和1s产生一个负脉冲, 画出与系统总线的连接图, 并编写初始化程序. 
+![8253编程](assets/8253连接.jpg)
+
+```assembly
+MOV DX,D0D3H
+MOV AL,16H	; 计数器0, 低8位计数, 方式3
+OUT DX,AL
+MOV AL,74H	; 计数器1, 双字节计数, 方式2
+OUT DX,AL
+MOV AL,0B4H	; 计数器2, 双字节计数, 方式2
+OUT DX,AL
+
+MOV DX,D0D0H
+MOV AL,20   ; 计数器0, 计数初值
+OUT DX,AL
+
+MOV DX,D0D1H
+MOV AX,2000	; 计数器1, 计数初值
+OUT DX,AL
+MOV AL,AH
+OUT DX,AL
+
+MOV DX,D0D2H
+MOV AX,1000	; 计数器2, 计数初值
+OUT DX,AL
+MOV AL,AH
+OUT DX,AL
+```
+
+> **计数器初始值 = 周期 x 时钟频率**
+> 
+> 注意本题中计数器2的时钟使用的是计数器1的输出, 故初值为1000
+
+### 3 可编程并行接口8255
+8255是一种通用并行I/O接口芯片, 具有3个8位并行I/O端口, 通过编程可以将其配置为输入端口或输出端口, 也可以将其配置为控制端口. 
+
+#### 3.1 8255与系统连接
+- 地址线/片选控制[同6264和系统连接](#存储器与CPU的连接)
+- {A1, A0}为地址选择信号线
+  - 00: Port A
+  - 01: Port B
+  - 10: Port C
+  - 11: 控制字寄存器
+
+#### 3.2 8255的工作方式
+##### 工作方式0
+- A口, B口, C口高4位, C口低4位均可作为输入端口或输出端口
+- 适合无条件传送方式
+
+##### 工作方式1
+- A口, B口可作为输入端口或输出端口; C口的某些位作为A口或B口的控制端口, 其余位仍可作为输入端口或输出端口
+
+**端口定义:**
+
+<table>
+<tbody>
+<tr>
+<td style="width: 50%;">
+<img src="assets/8255工作方式1输入.jpg" alt="8255工作方式1输入" style="zoom: 100%;" />
+</td>
+<td style="width: 50%;">
+<img src="assets/8255工作方式1输出.jpg" alt="8255工作方式1输出" style="zoom: 100%;" />
+</td>
+</tr>
+<tr>
+<td style="width: 50%;" align="center">输入端口定义</td>
+<td style="width: 50%;" align="center">输出端口定义</td>
+</tr>
+</tbody>
+</table>
+
+**时序图:**
+
+<table>
+<tbody>
+<tr>
+<td style="width: 50%;">
+<img src="assets/8255工作方式1输入时序.jpg" alt="8255工作方式1输入时序" style="zoom: 100%;" />
+</td>
+<td style="width: 50%;">
+<img src="assets/8255工作方式1输出时序.jpg" alt="8255工作方式1输出时序" style="zoom: 100%;" />
+</td>
+</tr>
+<tr>
+<td style="width: 50%;" align="center">输入时序</td>
+<td style="width: 50%;" align="center">输出时序</td>
+</tr>
+</tbody>
+</table>
+
+##### 工作方式2
+- 只有A口可以工作在这种方式下, 其可作为输入输出双向端口
+- B口可工作在方式0或方式1下
+
+**端口定义:**
+![8255工作方式2端口定义](assets/8255工作方式2定义.jpg)
+
+**时序图:**
+![8255工作方式2时序](assets/8255工作方式2时序.jpg)
+
+#### 3.3 8255控制字
+
+<table style="border-collapse: collapse; width: 100%;" border="1">
+<tbody>
+<tr>
+<td style="width: 25.0615%; text-align: center; border-color: #000000; border-style: solid;" colspan="2">计数器选择</td>
+<td style="text-align: center; width: 25.0615%; border-color: #000000; border-style: solid;" colspan="2">计数长度选择</td>
+<td style="width: 37.5922%; text-align: center; border-color: #000000; border-style: solid;" colspan="3">工作方式选择</td>
+<td style="width: 4.3001%; text-align: center; border-color: #000000; border-style: solid;">计数制选择</td>
+</tr>
+<tr>
+<td style="width: 5.5307%; text-align: center; border-color: #000000; border-style: solid;">SC1</td>
+<td style="width: 8.5307%; text-align: center; border-color: #000000; border-style: solid;">SC0</td>
+<td style="width: 6.5307%; text-align: center; border-color: #000000; border-style: solid;">RL1</td>
+<td style="width: 12.5307%; text-align: center; border-color: #000000; border-style: solid;">RL0</td>
+<td style="width: 7.5307%; text-align: center; border-color: #000000; border-style: solid;">M2</td>
+<td style="width: 6.5307%; text-align: center; border-color: #000000; border-style: solid;">M1</td>
+<td style="width: 6.5307%; text-align: center; border-color: #000000; border-style: solid;">M0</td>
+<td style="width: 4.3001%; text-align: center; border-color: #000000; border-style: solid;">BCD</td>
+</tr>
+<tr>
+<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">00</td>
+<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">计数器0</td>
+<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">00</td>
+<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">将计数器中的数据锁存于缓冲器</td>
+<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">000</td>
+<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式0</td>
+<td style="width: 4.3001%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" rowspan="6">高电平有效</td>
+</tr>
+<tr>
+<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">01</td>
+<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">计数器1</td>
+<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">01</td>
+<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">只读/写计数器低8位</td>
+<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">001</td>
+<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式1</td>
+</tr>
+<tr>
+<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">10</td>
+<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">计数器2</td>
+<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">10</td>
+<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">只读/写计数器高8位</td>
+<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">x10</td>
+<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式2</td>
+</tr>
+<tr>
+<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">11</td>
+<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">非法</td>
+<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">11</td>
+<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">先读/写计数器低8位, 再读/写计数器高8位</td>
+<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">x11</td>
+<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式3</td>
+</tr>
+<tr>
+<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
+<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
+<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
+<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
+<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">100</td>
+<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式4</td>
+</tr>
+<tr>
+<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
+<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
+<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
+<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
+<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">101</td>
+<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式5</td>
+</tr>
+</tbody>
+</table>
+
+#### 3.4 8255的编程
+**题目:** 设8255的接口地址范围为A380H—A383H, A组、B组工作于方式0, A口作为数据的输出口, C口低4位作为控制输入口, 其他端口未用, 画出与系统总线链接方式, 并编写初始化程序. 
+
+![8255编程](assets/8255连接.jpg)
+
+```assembly
+MOV DX,A383H
+MOV AL,81H  ; 1000 XXX1
+OUT DX,AL
+```
+
+
+## 八 模拟量的输入输出
+### 1 模拟量的输出
+#### 1.1 模拟量输出通道
+1. 输入锁存器: 用于存放输入的模拟量
+2. D/A转换器: 将输入的数字量转换为模拟量
+3. 低通滤波器: 平滑输出波形
+4. 功率放大器: 用于驱动执行器件
+
+#### 1.2 D/A转换器
+权电阻网络, 详见数电
+
+#### 1.3 技术指标
+- 分辨率: `1/(2^n-1)`
+- 转换精度
+  - 非线性误差: 在满刻度范围内, 偏移理想的转换特性的最大值
+  - 温度系数误差: 在允许范围内, 温度每变化1℃所引起的输出变化
+  - 电源波动误差: 由于电源的波动引起的输出变化
+  - 运算放大器误差: 与D/A变化器相连的运算放大器带来的误差
+- 转换时间: 满刻度变化(全0到全1)时, 从数字量输入到模拟量输出所需的时间
+- 线性误差: 输出与理论值的差的最大值
+- 动态范围: 最大与最小输出值的范围
+
+### 2 模拟量的输入
+#### 2.1 模拟量输入通道
+1. 传感器: 将非电的物理量转换为电信号或可进一步处理的电阻值、电压值等
+2. 变送器: 将传感器输出的微弱电信号或电阻值等非电量转换成统一的电信号
+3. 信号处理: 去除叠加在变送器输出信号上的干扰信号, 井将其进行放大或处理成与A/D转换器要求的输入相适应此电压水平
+4. 多路模拟开关: 用于选择不同的输入通道以共用一个A/D转换器
+5. 采样保持电路: 用于将输入信号的瞬时值保持在寄存器中, 以便A/D转换器有足够的时间进行转换
+6. A/D转换器: 将模拟量转换为数字量
+
+#### 2.2 A/D转换器
+逐次逼近法, 详见数电
+
+#### 2.3 技术指标
+- 精度
+  - 量化误差: `±1/2LSB`
+  - 非线性误差: 最大输出与理论值的差
+  - 其它误差: 温度系数误差, 电源波动误差, 零点漂移误差...
+- 转换时间
+- 输入动态范围
+
+## 附录
+### 1 8086指令简表
+![8086指令列表](assets/指令.jpg)
+
+### 2 8086软中断
+![8086软中断](assets/软中断.jpg)
+
+### 3 DOS中断调用简表
+![DOS中断调用简表](assets/DOS功能表.jpg)
 
 

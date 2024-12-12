@@ -33,6 +33,12 @@ delimiters.inline = [
   ["$", "$"]
 ]
 [markup.highlight]
+codeFences = true
+guessSyntax = true
+lineNoStart = 1
+lineNos = false
+lineNumbersInTable = true
+tabWidth = 4
 noClasses = false
 
 # [taxonomies]
