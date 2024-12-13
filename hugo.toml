@@ -80,7 +80,7 @@ email = "VincentWQ123@gmail.com"
 
 siteStartYear = 2024
 
-# favicon = "favicon.ico"
+favicon = "me/yy.jpg"
 
 # Syntax highlighting
 customSyntaxHighlighting = true
