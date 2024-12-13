@@ -67,7 +67,7 @@ motto = "卷!都可以卷"
 
 rss = true
 
-# utterancesRepo = "g1eny0ung/g1eny0ung.github.io"
+utterancesRepo = "Vincent-ice/study-materials"
 
 # valine = true
 # LEANCLOUD_APP_ID = ""
