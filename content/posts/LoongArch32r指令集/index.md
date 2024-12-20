@@ -2085,7 +2085,9 @@ GR[rj] = Counter ID
 
 
 ## 基础浮点数指令
-   ## 浮点运算类指令
+
+### 浮点运算类指令
+
 #### FADD.{S/D}
 
 <table>
@@ -4380,7 +4382,9 @@ MemoryStore(FR\[fd][63:0], paddr, DOUBLEWORD)
 **例外：**如果访存地址非自然对齐[^1]，则触发地址非对齐例外（ALE）。
 
 ## 特权指令
-   ## CSR 访问指令
+   
+### CSR 访问指令
+
 #### CSRRD, CSRWR, CSRXCHG
 
 <table>
