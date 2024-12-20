@@ -4,7 +4,7 @@ description: CPU仿真测试环境
 date: 2024-11-28
 lastmod: 2024-12-02T19:10:45+08:00
 author: Vincent Ice
-cover: /assets/soc_lite_structure.png
+cover: assets/soc_lite_structure.png
 categories:
     - FPGA开发
 tags: 
