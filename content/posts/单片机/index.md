@@ -4,7 +4,7 @@ description: 微机换皮
 date: 2024-12-28T10:52:45+08:00
 lastmod: 2024-12-29T21:49:45+08:00
 author: Vincent Ice
-avatar: ../../../static/me/xx.jpg
+avatar: ../../me/xx.jpg
 cover: cover.jpg
 categories:
   - 单片机
