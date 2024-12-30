@@ -958,70 +958,49 @@ OUT DX,AL
 <table style="border-collapse: collapse; width: 100%;" border="1">
 <tbody>
 <tr>
-<td style="width: 25.0615%; text-align: center; border-color: #000000; border-style: solid;" colspan="2">计数器选择</td>
-<td style="text-align: center; width: 25.0615%; border-color: #000000; border-style: solid;" colspan="2">计数长度选择</td>
-<td style="width: 37.5922%; text-align: center; border-color: #000000; border-style: solid;" colspan="3">工作方式选择</td>
-<td style="width: 4.3001%; text-align: center; border-color: #000000; border-style: solid;">计数制选择</td>
+<td style="width: 12.5307%; text-align: center;">功能控制</td>
+<td style="text-align: center; width: 25.0615%;" colspan="2">A组方式选择</td>
+<td style="width: 12.5307%; text-align: center;">A口方向</td>
+<td style="width: 12.5307%; text-align: center;">C口高4位方向</td>
+<td style="width: 12.5307%; text-align: center;">B组方式选择</td>
+<td style="width: 12.5307%; text-align: center;">B组方向</td>
+<td style="width: 12.3001%; text-align: center;">C口低4位方向</td>
 </tr>
 <tr>
-<td style="width: 5.5307%; text-align: center; border-color: #000000; border-style: solid;">SC1</td>
-<td style="width: 8.5307%; text-align: center; border-color: #000000; border-style: solid;">SC0</td>
-<td style="width: 6.5307%; text-align: center; border-color: #000000; border-style: solid;">RL1</td>
-<td style="width: 12.5307%; text-align: center; border-color: #000000; border-style: solid;">RL0</td>
-<td style="width: 7.5307%; text-align: center; border-color: #000000; border-style: solid;">M2</td>
-<td style="width: 6.5307%; text-align: center; border-color: #000000; border-style: solid;">M1</td>
-<td style="width: 6.5307%; text-align: center; border-color: #000000; border-style: solid;">M0</td>
-<td style="width: 4.3001%; text-align: center; border-color: #000000; border-style: solid;">BCD</td>
+<td style="width: 12.5307%; text-align: center; vertical-align: middle;" rowspan="3">1 方式选择</td>
+<td style="width: 12.5307%;">00</td>
+<td style="width: 12.5307%;">方式0</td>
+<td style="width: 25.0615%; text-align: center; vertical-align: middle;" colspan="2" rowspan="3">
+<p>0 输出</p>
+<p>1 输入</p>
+</td>
+<td style="width: 12.5307%; text-align: center; vertical-align: middle;" rowspan="3">
+<p>0 方式0</p>
+<p>1 方式1</p>
+</td>
+<td style="width: 24.8309%; text-align: center; vertical-align: middle;" colspan="2" rowspan="3">
+<p>0 输出</p>
+<p>1 输入</p>
+</td>
 </tr>
 <tr>
-<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">00</td>
-<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">计数器0</td>
-<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">00</td>
-<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">将计数器中的数据锁存于缓冲器</td>
-<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">000</td>
-<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式0</td>
-<td style="width: 4.3001%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" rowspan="6">高电平有效</td>
+<td style="width: 12.5307%;">01</td>
+<td style="width: 12.5307%;">方式1</td>
 </tr>
 <tr>
-<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">01</td>
-<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">计数器1</td>
-<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">01</td>
-<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">只读/写计数器低8位</td>
-<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">001</td>
-<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式1</td>
+<td style="width: 12.5307%;">1x</td>
+<td style="width: 12.5307%;">方式2</td>
 </tr>
 <tr>
-<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">10</td>
-<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">计数器2</td>
-<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">10</td>
-<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">只读/写计数器高8位</td>
-<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">x10</td>
-<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式2</td>
+<td style="text-align: center; vertical-align: middle; width: 12.5307%;" rowspan="2">0 位操作</td>
+<td style="width: 37.5922%; text-align: center; vertical-align: middle;" colspan="3" rowspan="2">无关</td>
+<td style="text-align: center; vertical-align: middle; width: 37.5922%;" colspan="3" rowspan="2">C口位号的二进制</td>
+<td style="text-align: center; vertical-align: middle; width: 12.3001%;" rowspan="2">
+<p>0 复位</p>
+<p>1 置位</p>
+</td>
 </tr>
-<tr>
-<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">11</td>
-<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">非法</td>
-<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">11</td>
-<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">先读/写计数器低8位, 再读/写计数器高8位</td>
-<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">x11</td>
-<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式3</td>
-</tr>
-<tr>
-<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
-<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
-<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
-<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
-<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">100</td>
-<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式4</td>
-</tr>
-<tr>
-<td style="width: 5.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
-<td style="width: 8.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
-<td style="width: 6.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
-<td style="width: 12.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">&nbsp;</td>
-<td style="width: 7.5307%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;">101</td>
-<td style="width: 15.0615%; text-align: center; vertical-align: middle; border-color: #000000; border-style: solid;" colspan="2">方式5</td>
-</tr>
+<tr></tr>
 </tbody>
 </table>
 
