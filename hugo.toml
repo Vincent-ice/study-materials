@@ -1,4 +1,4 @@
-baseURL = "https://vincent-ice.github.io/study-materials/"
+baseURL = "https://library.vincent-ice.me"
 defaultContentLanguage = "zh"
 languageCode = "zh-Hans"
 title = "Vincent的图书馆"
