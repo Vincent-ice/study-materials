@@ -48,6 +48,7 @@ noClasses = false
 
 [params]
 # zenMode = flase
+math = ture
 
 lightTheme = "emerald"
 darkTheme = "forest"
