@@ -42,7 +42,8 @@ jobs:
       - name: Clone Dream theme
         run: |
           cd themes
-          git clone https://github.com/Vincent-ice/hugo-theme-dream.git dream
+          # git clone https://github.com/Vincent-ice/hugo-theme-dream.git dream
+          git clone https://github.com/g1eny0ung/hugo-theme-dream dream
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
