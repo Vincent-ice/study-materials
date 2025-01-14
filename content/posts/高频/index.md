@@ -59,6 +59,7 @@ tags:
 </tr>
 </tbody>
 </table>
+
 **串联电抗为:** 
 
 <table style="border-collapse: collapse; width: 100%; margin-left: auto; margin-right: auto;" border="1">
@@ -69,10 +70,12 @@ tags:
 </tr>
 </tbody>
 </table>
+
 **谐振(角)频率为:**
 $$
 \omega _0 = \frac{1}{\sqrt{LC}} (rad/s) \qquad f_0 = \frac{1}{2 \pi \sqrt{LC}} (Hz)
 $$
+
 **品质因数:**
 
 反应了L和C中的储存的能量与电阻r消耗能量的比值
@@ -123,6 +126,7 @@ $$
 </tr>
 </tbody>
 </table>
+
 **并联电纳:**
 
 <table style="border-collapse: collapse; width: 100%; margin-left: auto; margin-right: auto;" border="1">
@@ -133,6 +137,7 @@ $$
 </tr>
 </tbody>
 </table>
+
 **品质因数:**
 $$
 Q = \frac{\omega _0 C}{G_0} = \frac{1}{G_0 \omega _0 L}

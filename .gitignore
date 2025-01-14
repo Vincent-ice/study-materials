@@ -11,3 +11,6 @@ themes/*
 # hugo
 resources
 .hugo_build.lock
+
+# posts
+content/posts/DSP
