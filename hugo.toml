@@ -16,12 +16,12 @@ hasCJKLanguage = true
 ID = "G-VLD9YXKQP8"
 
 [markup]
-[markup.goldmark.parser]
-wrapStandAloneImageWithinParagraph = false
-[markup.goldmark.parser.attribute]
-block = true
-[markup.goldmark.renderer]
-unsafe = true
+# [markup.goldmark.parser]
+# wrapStandAloneImageWithinParagraph = false
+# [markup.goldmark.parser.attribute]
+# block = true
+# [markup.goldmark.renderer]
+# unsafe = true
 [markup.goldmark.extensions.passthrough]
 enable = true
 delimiters.block = [
