@@ -284,7 +284,14 @@ func测试程序编译结果位于func/obj/下, 主要会用到的文件及作�
 第一种方法，也是最简单的，就是看Vivado控制台打印*Error*还是*PASS*。正确的控制台打印信息如下图:
 ![funcPass](assets/simulation_pass_console_info.png)
 
+错误的控制台打印信息如下图：
+
+![](assets/sim_error_console_info.png)
+
+请注意错误不一定会打印“Error”信息，也可能是指令输出一直为0等情况，需要注意波形窗口。
+
 第二种方法，是通过波形窗口观察程序执行结果func正确的执行行为，抓取confreg模块的信号led_data、led_rg0_data、led_rg1_data、num_data： 
+
 1. 开始，单色LED写全1表示全灭，双色LED写0x1和0x2表示一红一绿，数码写全0； 
 2. 执行过程中，单色LED全灭，双色LED灯一红一绿，数码管高8位和低8位同步累加； 
 3. 结束时，单色LED写全1表示全灭，双色LED均写0x1表示亮两绿，数码管高8位和低8位数值（十六进制）相同，对应测试功能点数目。
