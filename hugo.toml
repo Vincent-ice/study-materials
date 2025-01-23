@@ -68,7 +68,7 @@ motto = "<-或许你可以点一下 (～￣▽￣)～ "
 
 rss = true
 
-utterancesRepo = "Vincent-ice/study-materials"
+# utterancesRepo = "Vincent-ice/study-materials"
 
 # valine = true
 # LEANCLOUD_APP_ID = ""
@@ -76,6 +76,10 @@ utterancesRepo = "Vincent-ice/study-materials"
 
 # waline = true
 # walineServer = ""
+
+twikoo = true
+envID = "https://library-vincent-ice.netlify.app/.netlify/functions/twikoo"
+lang = "zh-CN"
 
 email = "VincentWQ123@gmail.com"
 
