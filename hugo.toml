@@ -16,6 +16,9 @@ hasCJKLanguage = true
 ID = "G-VLD9YXKQP8"
 
 [markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
 [markup.goldmark.parser]
 wrapStandAloneImageWithinParagraph = false
 [markup.goldmark.parser.attribute]
