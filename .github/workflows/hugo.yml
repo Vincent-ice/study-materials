@@ -66,8 +66,7 @@ jobs:
         with:
           zone: ${{ secrets.ZONE_ID }}
           api_token: ${{ secrets.api_token }}
-          URLs: https://library.vincent-ice.me
-          email: VincentWQ123@gmail.com
+          URLs: https://library.vincent-ice.me/posts/
           
 
   # Deployment job
