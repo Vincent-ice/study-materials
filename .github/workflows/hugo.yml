@@ -77,10 +77,10 @@ jobs:
       - name: Cloudflare Cache Cleaner
         uses: Cyb3r-Jak3/action-cloudflare-cache@v2.0.0
         with:
-          zone: ${{ secrets.ZONE_ID }}
-          api_token: Bearer sPHYPvn1wdD7zY9Dg9WeMoyRhGIfomKt6KAY4q0v
-          URLs: library.vincent-ice.me/posts
-          email: VincentWQ123@gmail.com
+          zone: '${{ secrets.ZONE_ID }}'
+          api_token: '${{ secrets.api_token }}'
+          URLs: 'library.vincent-ice.me/posts'
+          email: 'VincentWQ123@gmail.com'
           
 
       # - name: Cloudflare Cache Cleaner
