@@ -78,6 +78,6 @@ jobs:
         run: |
           curl https://api.cloudflare.com/client/v4/zones/${{ secrets.ZONE_ID }}/purge_cache \
             -H 'Content-Type: application/json' \
-            -H "X-Auth-Email: VincentWQ123@gmail.com \
+            -H "X-Auth-Email: VincentWQ123@gmail.com" \
             -H "X-Auth-Key: ${{ secrets.api_token }}" \
             -d '{"hosts": [ "library.vincent-ice.me" ]}'
