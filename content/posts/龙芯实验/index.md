@@ -76,7 +76,7 @@ CPU的debug实际上就是在观察数据通路上各处流动的数据是不是
 
 <a name="数据通路流水线"></a> 以下是流水线化后的CPU数据通路示意图：
 
-![datapath-简单流水线](assets/datapath-简单流水线.webp)
+![datapath-简单流水线](assets/datapath-简单流水线.png)
 
 ### 调试Tips
 
@@ -227,7 +227,7 @@ end
 
 以下是添加了前递通路的数据通路参考：
 
-![](assets/datapath-前递.webp)
+![](assets/datapath-前递.png)
 
 ### 调试Tips
 
