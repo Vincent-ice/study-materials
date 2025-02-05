@@ -61,6 +61,15 @@ jobs:
         with:
           path: ./public
 
+      - name: Cloudflare Cache Cleaner
+        uses: Cyb3r-Jak3/action-cloudflare-cache@v2.0.0
+        with:
+          zone: ${{ secrets.ZONE_ID }}
+          api_token: ${{ secrets.api_token }}
+          URLs: https://library.vincent-ice.me
+          email: VincentWQ123@gmail.com
+          
+
   # Deployment job
   deploy:
     environment:
