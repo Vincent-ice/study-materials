@@ -532,6 +532,7 @@ GR[rd] = product[63:32]
 </tr>
 </tbody>
 </table>
+
 **指令格式：** 
 
 div.w   rd, rj, rk
@@ -599,6 +600,7 @@ GR[rd] = quotient[31:0]
 </tr>
 </tbody>
 </table>
+
 **指令格式：** 
 
 mod.w   rd, rj, rk
