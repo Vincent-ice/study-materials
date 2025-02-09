@@ -60,6 +60,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
+          
 
   # Deployment job
   deploy:
@@ -72,3 +73,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Cloudflare Cache Cleaner
+        run: |
+          curl https://api.cloudflare.com/client/v4/zones/${{ secrets.ZONE_ID }}/purge_cache \
+            -H 'Content-Type: application/json' \
+            -H "X-Auth-Email: VincentWQ123@gmail.com" \
+            -H "Authorization: ${{ secrets.API_TOKEN }}" \
+            -d '{"purge_everything": true}'
