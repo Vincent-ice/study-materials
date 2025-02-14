@@ -2,7 +2,7 @@
 title: 龙芯实验攻略
 description: 给初学者的一些Tips，希望可以帮助大家入门
 date: 2025-01-19
-lastmod: 2025-02-11
+lastmod: 2025-02-14
 author: Vincent Ice
 avatar: /me/xx.jpg
 cover: cover.jpg
@@ -418,6 +418,7 @@ Vivado中的综合工具遇到上面代码中的“＊’’运算符时，会�
 
 1. 顶层信号中地址线`addr`在接入存储器时将末两位截去，所以`00B`~`11B`的访存地址均会取出`00H`开始的一个字，详见`soc_lite_top.v`文件
 2. 大部分分支跳转指令本身的执行错误不会引发trace比对的ERROR，其后一条指令才会引发
+3. 当功能点越来越多，你可以尝试编译只有新指令的func程序来跳过前面已经pass的指令以提高仿真速度，但请最后跑一遍完整的func程序
 
 ## exp12：添加系统调用异常支持
 
@@ -545,6 +546,96 @@ CSR寄存器有其专用的读写指令`csrrd`、`csrwr`、`csrxchg`，注意这
 1. 在经过了exp12的锤炼后，本实验应该不难了吧~~\doge~~
 2. 在verilog描述中**注意多驱动问题**。如果你选择给每个CSR寄存器一个always块负责内容修改的话，请注意这个CSR寄存器中所有数据更新都必须在这个always块中，以避免多驱动问题产生。例如`CSR.ESTAT.IS[11]`的定时器中断状态位的赋值不能在`CSR.TVAL`寄存器中，当然还有其它情况，请自行注意避免。（可以在综合的警告或者Linter语法检查找到已有的多驱动）
 3. 选择你觉得舒服的CSR寄存器声明方式，可以按照名字定义32位的，也可以直接按照子域分开定义……善用宏定义将位索引转换为有意义的单词
+
+## exp14：添加类SRAM总线支持
+
+目标：
+
+- [ ] 学习总线的原理及作用
+- [ ] 在CPU中添加简单的类SRAM接口总线支持
+
+### 总线
+
+总线的本质作用是完成数据交换。总线用于将两个或两个以上的部件连接起来，使得它们之间可以进行数据交换，或者说通信。
+
+总线的具体介绍可见[《计算机体系结构》](https://foxsen.github.io/archbase/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%E6%8E%A5%E5%8F%A3%E6%8A%80%E6%9C%AF.html#%E6%80%BB%E7%BA%BF%E6%A6%82%E8%BF%B0)。
+
+在总线通信中，通常将读写操作发起方称为主方（master），响应方称为从方（slave）。每一次读写操作的过程可大致分为：请求发起、响应请求、请求数据传输、请求数据返回。和我们之前的实验中不同的是，由于实际情况下总线上可能不止处理一件事物、数据的读写也需要一定的时间，所以每个步骤之间是有不确定的时间间隔的。为了明确何时的数据是有效的，每次有效的数据传输都基于握手信号，只有握手成功才会传输有效数据。
+
+### 类SRAM接口
+
+我们的CPU最终需要实现AMBA AXI总线接口，但是直接上手AXI总线可能有些困难，所以我们先学习类SRAM接口，或者说在我们原先的SRAM接口上加入握手机制，其接口信号如下：
+
+| 信号名称 | 位宽 | 方向          | 功能                                         |
+| -------- | ---- | ------------- | -------------------------------------------- |
+| req      | 1    | master->slave | 读写请求信号                                 |
+| wr       | 1    | master->slave | 高电平表示写请求，低电平为读操作             |
+| size     | 2    | master->slave | 传输字节数                                   |
+| addr     | 32   | master->slave | 请求的地址                                   |
+| wstrb    | 4    | master->slave | 写请求的写字节使能                           |
+| wdata    | 32   | master->slave | 写请求的写数据                               |
+| addr_ok  | 1    | slave->master | 请求的地址传输完毕                           |
+| data_ok  | 1    | slave->master | 请求的数据传输完毕（读取的数据or数据的写入） |
+| rdata    | 32   | slave->master | 读请求返回的读数据                           |
+
+相较于原先的SRAM接口，我们只添加了`size`、`addr_ok`、`data_ok`三根信号线，接下来我们解释一下这三条线的作用。
+
+#### `size`
+
+`size`信号表示该次请求传输的字节数，根据访存指令不同选择不同的值
+
+- 0: 1字节。`ld.b`、`ld.ub`、`st.b`
+- 1: 2字节。`ld.h`、`ld.uh`、`st.h`
+- 2: 4字节。`ld.w`、`st.w`
+
+#### `addr_ok`
+
+`addr_ok`信号用于和`req`信号一起完成读写请求的握手。只有在`clk`的上升沿同时看到`req`和`addr_ok`为1的时候才是一次成功的请求握手，读写请求、读写地址和可能的写数据被发送至从方。
+
+#### `data_ok`
+
+`data_ok`信号有双重身份。对应读事务的时候它是数据返回的有效信号；对应写事务的时候，它是写入完成的有效信号。
+
+在类SRAM接口中主方对于数据响应总是可以接收，所以不再设置Master接收`data_ok`的握手信号。也就是说如果存在未返回数据响应的请求，则在`clk`的上升沿看到`data_ok`为1就可以认为是—次成功的数据响应握手。
+
+#### 读写时序
+
+![](assets/类SRAM读.jpg)
+
+![](assets/类SRAM写.jpg)
+
+需要注意的是，总线上支持多事务处理，比如说以下连续写读操作：
+
+![](assets/类SRAM写读.jpg)
+
+对于初学者来说还是先一个一个事务处理，多事务会复杂上不少，对于我们的单发射流水线也起不到很大优化效果。
+
+> 建议阅读一下《CPU设计实战》中“类SRAM总线的设计”一节，书中有详细的分析。如果没有Loongarch版的话MIPS版也是相通的。
+
+### 调试Tips
+
+1. 从总线接口开始，你就会发现何为时序逻辑比组合逻辑难了。不出意外的话你应该会开始遇到各种差一拍或者其它奇奇怪怪的情况，请记得此时你的流水级处理的事情不像之前那样只有一拍，而变成类似一个状态机一样的多周期流水级，需要对流入和流出的控制有着明确的信号逻辑。
+2. 明确需要当拍更新（组合逻辑）和下拍更新（时序逻辑）的信号及它们间的相互依赖。
+
+## exp15、16：添加AXI总线支持、完成AXI随机延迟验证
+
+CPU对外只有一个AXI接口，需在内部完成取指和数据访问的仲裁。推荐在本任务中实现一个类SRAM-AXI的2x1的转接桥，然后拼接上exp14完成的类SRAM接口的CPU，将myCPU封装为AXI接口。
+
+### AXI接口
+
+备注栏中是我们针对exp给出的—些设计建议。
+
+![](assets/AXI接口.jpg)
+
+AXI接口的设计资料比较多，《CPU设计实战》和[《计算机体系结构基础》](https://foxsen.github.io/archbase/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%E6%8E%A5%E5%8F%A3%E6%8A%80%E6%9C%AF.html#%E7%89%87%E4%B8%8A%E6%80%BB%E7%BA%BF)以及网络上都有十分详细的分析和教学，我就不班门弄斧了。
+
+在这里提供一个[转接桥参考](#类SRAM-AXI转接桥)。
+
+### 调试Tips
+
+1. 到这里提前恭喜你已经写出完整的CPU (◆゜∀゜）👍
+2. [在exp16实践任务中](https://bookdown.org/loongson/_book3/chapter-axi-bus.html#subsec-exp16)第6、7步比较费时间，建议各个种类各挑一个就行
+3. 到这我也没什么Tips可写了，靠各位自己STFW啦\*\(^_^)/\*
 
 ## 附录
 
@@ -1311,3 +1402,163 @@ $$
 > - [硬件除法专题-SRT除法 - devindd - 博客园](https://www.cnblogs.com/devindd/articles/17633558.html#fnref1)
 > - [SRT除法的一些理解 - 知乎](https://zhuanlan.zhihu.com/p/550913605)
 > - [除法器的实现（恢复余数、不恢复余数、级数展开、Newton-Raphson）_恢复余数除法器-CSDN博客](https://blog.csdn.net/lum250/article/details/125111667)
+
+### 类SRAM-AXI转接桥
+
+龙芯杯团队赛中曾经提供的一个转接桥参考，效率偏低，且不支持burst传输。
+
+```verilog
+module cpu_axi_interface
+(
+    input         clk,
+    input         resetn, 
+
+    //inst sram-like 
+    input         inst_req     ,
+    input         inst_wr      ,
+    input  [1 :0] inst_size    ,
+    input  [31:0] inst_addr    ,
+    input  [31:0] inst_wdata   ,
+    output [31:0] inst_rdata   ,
+    output        inst_addr_ok ,
+    output        inst_data_ok ,
+    
+    //data sram-like 
+    input         data_req     ,
+    input         data_wr      ,
+    input  [1 :0] data_size    ,
+    input  [31:0] data_addr    ,
+    input  [31:0] data_wdata   ,
+    output [31:0] data_rdata   ,
+    output        data_addr_ok ,
+    output        data_data_ok ,
+
+    //axi
+    //ar
+    output [3 :0] arid         ,
+    output [31:0] araddr       ,
+    output [7 :0] arlen        ,
+    output [2 :0] arsize       ,
+    output [1 :0] arburst      ,
+    output [1 :0] arlock        ,
+    output [3 :0] arcache      ,
+    output [2 :0] arprot       ,
+    output        arvalid      ,
+    input         arready      ,
+    //r           
+    input  [3 :0] rid          ,
+    input  [31:0] rdata        ,
+    input  [1 :0] rresp        ,
+    input         rlast        ,
+    input         rvalid       ,
+    output        rready       ,
+    //aw          
+    output [3 :0] awid         ,
+    output [31:0] awaddr       ,
+    output [7 :0] awlen        ,
+    output [2 :0] awsize       ,
+    output [1 :0] awburst      ,
+    output [1 :0] awlock       ,
+    output [3 :0] awcache      ,
+    output [2 :0] awprot       ,
+    output        awvalid      ,
+    input         awready      ,
+    //w          
+    output [3 :0] wid          ,
+    output [31:0] wdata        ,
+    output [3 :0] wstrb        ,
+    output        wlast        ,
+    output        wvalid       ,
+    input         wready       ,
+    //b           
+    input  [3 :0] bid          ,
+    input  [1 :0] bresp        ,
+    input         bvalid       ,
+    output        bready       
+);
+//addr
+reg do_req;
+reg do_req_or; //req is inst or data;1:data,0:inst
+reg        do_wr_r;
+reg [1 :0] do_size_r;
+reg [31:0] do_addr_r;
+reg [31:0] do_wdata_r;
+wire data_back;
+
+assign inst_addr_ok = !do_req&&!data_req;
+assign data_addr_ok = !do_req;
+always @(posedge clk)
+begin
+    do_req     <= !resetn                       ? 1'b0 : 
+                  (inst_req||data_req)&&!do_req ? 1'b1 :
+                  data_back                     ? 1'b0 : do_req;
+    do_req_or  <= !resetn ? 1'b0 : 
+                  !do_req ? data_req : do_req_or;
+
+    do_wr_r    <= data_req&&data_addr_ok ? data_wr :
+                  inst_req&&inst_addr_ok ? inst_wr : do_wr_r;
+    do_size_r  <= data_req&&data_addr_ok ? data_size :
+                  inst_req&&inst_addr_ok ? inst_size : do_size_r;
+    do_addr_r  <= data_req&&data_addr_ok ? data_addr :
+                  inst_req&&inst_addr_ok ? inst_addr : do_addr_r;
+    do_wdata_r <= data_req&&data_addr_ok ? data_wdata :
+                  inst_req&&inst_addr_ok ? inst_wdata :do_wdata_r;
+end
+
+//inst sram-like
+assign inst_data_ok = do_req&&!do_req_or&&data_back;
+assign data_data_ok = do_req&& do_req_or&&data_back;
+assign inst_rdata   = rdata;
+assign data_rdata   = rdata;
+
+//---axi
+reg addr_rcv;
+reg wdata_rcv;
+
+assign data_back = addr_rcv && (rvalid&&rready||bvalid&&bready);
+always @(posedge clk)
+begin
+    addr_rcv  <= !resetn          ? 1'b0 :
+                 arvalid&&arready ? 1'b1 :
+                 awvalid&&awready ? 1'b1 :
+                 data_back        ? 1'b0 : addr_rcv;
+    wdata_rcv <= !resetn        ? 1'b0 :
+                 wvalid&&wready ? 1'b1 :
+                 data_back      ? 1'b0 : wdata_rcv;
+end
+//ar
+assign arid    = data_req?4'b0001:4'b0000;
+assign araddr  = do_addr_r;
+assign arlen   = 8'd0;
+assign arsize  = do_size_r;
+assign arburst = 2'd0;
+assign arlock  = 2'd0;
+assign arcache = 4'd0;
+assign arprot  = 3'd0;
+assign arvalid = do_req&&!do_wr_r&&!addr_rcv;
+//r
+assign rready  = 1'b1;
+
+//aw
+assign awid    = 4'd0001;
+assign awaddr  = do_addr_r;
+assign awlen   = 8'd0;
+assign awsize  = do_size_r;
+assign awburst = 2'd0;
+assign awlock  = 2'd0;
+assign awcache = 4'd0;
+assign awprot  = 3'd0;
+assign awvalid = do_req&&do_wr_r&&!addr_rcv;
+//w
+assign wid    = 4'd0001;
+assign wdata  = do_wdata_r;
+assign wstrb  = do_size_r==2'd0 ? 4'b0001<<do_addr_r[1:0] :
+                do_size_r==2'd1 ? 4'b0011<<do_addr_r[1:0] : 4'b1111;
+assign wlast  = 1'd1;
+assign wvalid = do_req&&do_wr_r&&!wdata_rcv;
+//b
+assign bready  = 1'b1;
+
+endmodule
+```
+
