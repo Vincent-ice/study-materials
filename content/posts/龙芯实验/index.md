@@ -633,9 +633,121 @@ AXI接口的设计资料比较多，《CPU设计实战》和[《计算机体系�
 
 ### 调试Tips
 
-1. 到这里提前恭喜你已经写出完整的CPU (◆゜∀゜）👍
+1. 到这里提前恭喜你已经写出较为完整的CPU (◆゜∀゜）👍
 2. [在exp16实践任务中](https://bookdown.org/loongson/_book3/chapter-axi-bus.html#subsec-exp16)第6、7步比较费时间，建议各个种类各挑一个就行
 3. 到这我也没什么Tips可写了，靠各位自己STFW啦\*\(^_^)/\*
+
+## exp17：TLB模块设计
+
+在介绍TLB模块之前，让我们先来学习一下计算机中存储管理。
+
+### 存储管理
+
+处理器的存储管理部件（Memory Management Unit，简称**MMU**）支持虚实地址转换、多进程空间等功能，是通用处理器体现“通用性”的重要单元，也是处理器和操作系统交互最紧密的部分。
+
+这一部分的内容量比较大，细节比较多，但是原理其实很简单，就是送快递用到的地址。让我们先从虚实地址开始解释。
+
+在之前的CPU设计中，我们只实现了最简单的**直接地址翻译模式**，即直接用PC中的地址或者计算出的地址作为访存地址，在存储器中读写数据，但对于32位的处理器，只能寻址全0到全1的$2^{32}=4\mathrm{GB}$地址空间。显然，现代计算机中存储空间早远远超过4GB大小了，所以我们需要一个方式进行更大地址空间的寻址，而虚地址就诞生了。
+
+> 仅提供一个简单的引入，虚地址的意义不仅如此。
+
+在虚实地址转换模式下，处理器核提供的地址是虚拟地址，经过MMU转换成物理地址后才发送给存储器进行数据读写。类比一下，在你想去泰山路143号的时候，你会首先在地图上搜索泰山路143号这个地址所在的地理位置，然后你就知道怎么去了。
+
+页式存储管理是一种常见而高效的方式，操作系统将内存空间分为若干个固定大小的页，并维护虚拟页地址和物理页地址的映射关系（即页表）。页就类似“泰山路”，“143号”则称为页内偏移。
+
+由于完整的页表通常非常大，只能放在物理存储器中，同时查询时间消耗也很长，再加上物理存储器的访问本身就很费时间，所以为了加速地址转换，转换后备缓冲器（Translation Lookaside Buffer，TLB）将最常用的页表项缓存用来跳过查询的时间。
+
+### TLB结构
+
+LoongArch指令系统下TLB分为两个部分，一个是所有表项的页大小相同的单一页大小TLB（Singular-Page-Size TLB，简称STLB），另一个是支持不同表项的页大小可以不同的多重页大小TLB（Multiple-Page-Size TLB，简称MTLB）。STLB的页大小可通过STLBPS控制寄存器进行配置。
+
+龙芯架构32位精简版只支持4KB和4MB两种固定页大小，以4KB页大小为例，虚地址的[31:12]位作为页表查询信息，[11:0]位作为页内偏移，满足$2^{页内偏移位数}=页大小$。
+
+接下来介绍页表项的构成：
+
+![tlb_entry](assets/tlb_entry.png)
+
+页表项的比较部分包括：
+
+- **VPPN表示虚双页号。**在龙芯架构32位精简版中，每一个页表项存放了相邻的一对奇偶相邻页表信息，所以TLB页表项中存放虚页号的是系统中虚页号/2的内容，即虚页号的最低位不需要存放在TLB中。查找TLB时在根据被查找虚页号的最低位决定是选择奇数号页还是偶数号页的物理转换信息。~~路名，奇偶相邻可视作路两侧的单双号，但在物理存储器中不一定相邻~~
+- **PS表示页大小。**仅在MTLB中出现。用于指定该页表项中存放的页大小。数值是页大小的2的幂指数。龙芯架构32位精简版只支持4KB和4MB两种页大小，对应TLB表项中的PS值分别是12和21[^1]。~~每条路支持最大的号牌数~~
+- **G表示全局域标识。**为1时关闭ASID匹配，表示该TLB表项适用于所有的地址空间。
+- **ASID表示地址空间标识。**标记该TLB表项属于哪个地址空间，只有CPU中当前的ASID（由CSR.ASID的ASID域决定）与该域相同时才能命中，ASID用于区分不同进程的页表，操作系统为每个进程分配唯一的ASID。~~可认为是城市名~~
+- **E表示有效性。**E为0的项在进行TLB查找时将被视为无效项。
+
+表项的物理转换部分存有一对奇偶相邻页表的物理转换信息，每一个页的转换信息包括：
+
+- **PPN为物理页号。**
+- **PLV表示该页表项对应的权限等级。**该页表项可以被任何特权等级不低于PLV的程序访问。
+- **MAT表示存储访问类型。**控制落在该页表项所在地址空间上的访存操作的存储访问类型，如是否可通过Cache缓存等。
+- **D被称为“脏”（Dirty）位。**为1表示该页表项所对应的地址范围内已有脏数据（修改过的数据）。
+- **V为有效位。**为1表明该页表项是有效且被访问过的。
+
+[^1]:  Linux 内核中4MB页大小对应的是透明大页的页表项，其在填入TLB过程中等分为2个2MB大小相同页表属性的表项。
+
+### TLB设计分析
+
+TLB模块类似通用寄存器模块，需要支持页表项读写（`TLBWR`、`TLBRD`、`TLBFILL`指令）、查询（`TLBSRCH`指令和地址转换）、无效化（`INVTLB`指令）。
+
+为了使流水线能够满负荷运转不断流，TLB模块要能够支持取指和访存同时进行查找，这意味着查找端口应该有两套，或者有两个TLB模块。
+
+TLB模块部分参考代码见附录[TLB模块参考](#TLB模块参考)，注意多驱动问题。
+
+## exp18：添加TLB相关指令和CSR寄存器
+
+### TLB虚实地址翻译过程
+
+用TLB进行虚实地址翻译时，首先要进行TLB查找，将待查虚地址vaddr和CSR.ASID中ASID域的值asid一起与TLB中每一项的指定索引位置项进行比对。
+
+- 如果TLB表项的E位为1，且vaddr对应的虚双页号vppn与TLB表项的VPPN相等（该比较需要根据TLB表项对应的页大小，只比较地址中属于虚页号的部分），且TLB表项中的G位为1或者asid与TLB表项的ASID域的值相等，那么TLB查找**命中**该TLB表项。
+- 如果没有命中项，则触发**TLB重填异常（TLBR）**。
+
+如果查找到一个命中项（多项命中处理器运行情况不确定），那么根据命中项的页大小和待查虚地址确定vaddr具体落在双页中的哪一页，从奇偶两个页表项取出对应页表项作为命中页表项。
+
+- 如果命中页表项的V等于0，说明该页表项无效，将触发页无效异常，具体将根据访问类型触发对应的**load操作页无效异常（PIL）**、**store操作页无效异常（PIS）**或**取指操作页无效异常（PIF）**。
+
+- 如果命中页表项的V值等于1，但是访问的权限等级不合规，将触发**页权限等级不合规异常（PPI）**。权限等级不合规体现为，CSR.CRMD中PLV域的值大于命中页表项中的PLV值。
+
+- 如果上述检查都合规，还要进一步根据访问类型进行检查。
+
+    - 如果是一个store操作，但是命中页表项中的D值等于0，将触发**页修改异常（PME）**。
+
+
+如果找到了命中项且经检查上述异常都没有触发，那么命中项中的PPN值和MAT值将被取出，前者用于和vaddr中提取的页内偏移拼合成物理地址paddr，后者用于控制该访问操作的内存访问类型属性。
+
+> 内存访问类型属性将在后文添加Cache时介绍，这里暂时忽略它即可。本exp中也无需关心异常，仅将命中的数据通路打通即可。
+
+### TLB相关CSR寄存器
+
+本exp中需要添加`TLBIDX`、`TLBEHI`、`TLBELO0`、`TLBELO1`、`ASID`、`TLBRENTRY`共6个CSR寄存器，定义见[原手册](https://www.loongson.cn/uploads/images/2023041918122813624.%E9%BE%99%E8%8A%AF%E6%9E%B6%E6%9E%8432%E4%BD%8D%E7%B2%BE%E7%AE%80%E7%89%88%E5%8F%82%E8%80%83%E6%89%8B%E5%86%8C_r1p03.pdf)第7.5节。
+
+### TLB维护指令
+
+定义见[原手册](https://www.loongson.cn/uploads/images/2023041918122813624.%E9%BE%99%E8%8A%AF%E6%9E%B6%E6%9E%8432%E4%BD%8D%E7%B2%BE%E7%AE%80%E7%89%88%E5%8F%82%E8%80%83%E6%89%8B%E5%86%8C_r1p03.pdf)第4.2.3节。
+
+## exp19：添加TLB相关例外支持
+
+### TLB相关例外
+
+根据各种TLB相关例外[触发条件](#TLB虚实地址翻译过程)添加对应异常申请即可。
+
+当触发TLB重填异常时，除了更新CSR.CRMD外，CSR.CRMD中PLV、IE域的旧值将被记录到CSR.TLBRPRMD的相关域中，异常返回地址也将被记录到CSR.TLBRERA的PC域中，处理器还会将引发该异常的访存虚地址填入CSR.TLBRBAV的VAddr域并从该虚地址中提取虚双页号填入CSR.TLBREHI的VPPN域。当触发非TLB重填异常的其他TLB类异常时，除了像普通异常发生时一样更新CRMD、PRMD和ERA这些控制状态寄存器的相关域外，处理器还会将引发该异常的访存虚地址填入CSR.BADV的VAddr域并从该虚地址中提取虚双页号填入CSR.TLBEHI的VPPN域。
+
+### TLB相关CSR寄存器
+
+本exp中需要添加`DMW0~1`两个直接映射配置窗口CSR寄存器，其作用如下
+
+当处理器核的MMU处于映射地址模式时，还可以通过直接映射配置窗口机制完成虚实地址的直接映射。直接映射配置窗口共设置有两个，可同时用于取指和load/store操作。在龙芯架构32位精简版中，每一个直接映射配置窗口可以配置一个$2^{29}$字节固定大小的虚拟地址空间。当虚地址命中某个有效的直接映射配置窗口时，其物理地址直接等于虚地址的[28:0]位拼接上该映射窗口所配置的物理地址高位。命中的判断方式是：虚地址的最高3位（[31:29]位）与配置窗口寄存器中的[31:29] 相等，且当前特权等级在该配置窗口中被允许。
+
+举例来说，通过将DMW0配置为0x80000011，那么在PLV0级下，0x80000000~0x9FFFFFFF这段地址将直接被映射到物理地址空间0x0~0x1FFFFFFF上，其存储访问类型是一致可缓存[^存储访问类型]的。
+
+另外，在实验中未提及，但是在指令手册中有的CSR寄存器（如`PGD`）可自行添加，完整的CSR寄存器才能支持完整的功能。这里简单介绍一下`PGDL`和`PGDH`的作用。
+
+现代处理器都是支持多线程的。对于每个线程来说，其都有一块独立的地址空间，当一个新进程被创建时，操作系统会为其分配一个新的用户空间PGD（Page Global Directory）。当进程切换时，PGD表也需要进行更换，此时仅需更改`PGDL`或`PGDH`中的地址并刷新TLB即可。
+
+> 在《计算机体系结构基础》中写到“每个进程的PGD表基地址放在进程上下文中，内核进程进行切换时把PGD表的基地址写到CSR.PGDH的Base域中，用户进程进行切换时把PGD表的基地址写到CSR.PGDL的Base域中。”
+
+[^存储访问类型]: 存储访问类型将在下文cache部分介绍。
 
 ## 附录
 
@@ -1560,5 +1672,165 @@ assign wvalid = do_req&&do_wr_r&&!wdata_rcv;
 assign bready  = 1'b1;
 
 endmodule
+```
+
+### TLB模块参考
+
+TLB模块的接口与内部主要信号的定义如下：
+
+```verilog
+module tlb
+#(
+    parameter TLBNUM = 16	//only can support 16 TLB entries, index output need to be changed when TLBNUM more than 16
+)
+(
+    input  wire                      clk,
+
+    // search port 0 (for fetch)
+    input  wire [              18:0] s0_vppn,
+    input  wire                      s0_va_bit12,
+    input  wire [               9:0] s0_asid,
+    output wire                      s0_found,
+    output wire [$clog2(TLBNUM)-1:0] s0_index,
+    output wire [              19:0] s0_ppn,
+    output wire [               5:0] s0_ps,
+    output wire [               1:0] s0_plv,
+    output wire [               1:0] s0_mat,
+    output wire                      s0_d,
+    output wire                      s0_v,
+
+    // search port 1 (for load/store)
+    input  wire [              18:0] s1_vppn,
+    input  wire                      s1_va_bit12,
+    input  wire [               9:0] s1_asid,
+    output wire                      s1_found,
+    output wire [$clog2(TLBNUM)-1:0] s1_index,
+    output wire [              19:0] s1_ppn,
+    output wire [               5:0] s1_ps,
+    output wire [               1:0] s1_plv,
+    output wire [               1:0] s1_mat,
+    output wire                      s1_d,
+    output wire                      s1_v,
+
+    // invtlb opcode
+    input  wire                      invtlb_valid,
+    input  wire [               4:0] invtlb_op,
+
+    // write port
+    input  wire                      we,     //w(rite) e(nable)
+    input  wire [$clog2(TLBNUM)-1:0] w_index,
+    input  wire                      w_e,
+    input  wire [              18:0] w_vppn,
+    input  wire [               5:0] w_ps,
+    input  wire [               9:0] w_asid,
+    input  wire                      w_g,
+    input  wire [              19:0] w_ppn0,
+    input  wire [               1:0] w_plv0,
+    input  wire [               1:0] w_mat0,
+    input  wire                      w_d0,
+    input  wire                      w_v0,
+    input  wire [              19:0] w_ppn1,
+    input  wire [               1:0] w_plv1,
+    input  wire [               1:0] w_mat1,
+    input  wire                      w_d1,
+    input  wire                      w_v1,
+
+    // read port
+    input  wire [$clog2(TLBNUM)-1:0] r_index,
+    output wire                      r_e,
+    output wire [              18:0] r_vppn,
+    output wire [               5:0] r_ps,
+    output wire [               9:0] r_asid,
+    output wire                      r_g,
+    output wire [              19:0] r_ppn0,
+    output wire [               1:0] r_plv0,
+    output wire [               1:0] r_mat0,
+    output wire                      r_d0,
+    output wire                      r_v0,
+    output wire [              19:0] r_ppn1,
+    output wire [               1:0] r_plv1,
+    output wire [               1:0] r_mat1,
+    output wire                      r_d1,
+    output wire                      r_v1
+);
+
+reg  [TLBNUM-1:0] tlb_e;
+reg  [TLBNUM-1:0] tlb_ps4MB; //pagesize 1:4MB, 0:4KB
+reg  [      18:0] tlb_vppn     [TLBNUM-1:0];
+reg  [       9:0] tlb_asid     [TLBNUM-1:0];
+reg               tlb_g        [TLBNUM-1:0];
+reg  [      19:0] tlb_ppn0     [TLBNUM-1:0];
+reg  [       1:0] tlb_plv0     [TLBNUM-1:0];
+reg  [       1:0] tlb_mat0     [TLBNUM-1:0];
+reg               tlb_d0       [TLBNUM-1:0];
+reg               tlb_v0       [TLBNUM-1:0];
+reg  [      19:0] tlb_ppn1     [TLBNUM-1:0];
+reg  [       1:0] tlb_plv1     [TLBNUM-1:0];
+reg  [       1:0] tlb_mat1     [TLBNUM-1:0];
+reg               tlb_d1       [TLBNUM-1:0];
+reg               tlb_v1       [TLBNUM-1:0];
+
+......
+
+endmodule
+```
+
+TLB查询逻辑：
+
+```verilog
+assign match0[ 0] = (s0_vppn[18:10]==tlb_vppn[ 0][18:10])
+                 && (tlb_ps4MB[ 0] || s0_vppn[9:0]==tlb_vppn[ 0][9:0])
+                 && ((s0_asid==tlb_asid[ 0]) || tlb_g[ 0]);
+assign match0[ 1] = (s0_vppn[18:10]==tlb_vppn[ 1][18:10])
+                 && (tlb_ps4MB[ 1] || s0_vppn[9:0]==tlb_vppn[ 1][9:0])
+                 && ((s0_asid==tlb_asid[ 1]) || tlb_g[ 1]);
+...... 
+assign match0[15] = (s0_vppn[18:10]==tlb_vppn[15][18:10])
+                 && (tlb_ps4MB[15] || s0_vppn[9:0]==tlb_vppn[15][9:0])
+                 && ((s0_asid==tlb_asid[15]) || tlb_g[15]);
+
+assign match1[ 0] = (s1_vppn[18:10]==tlb_vppn[ 0][18:10])
+                 && (tlb_ps4MB[ 0] || s1_vppn[9:0]==tlb_vppn[ 0][9:0])
+                 && ((s1_asid==tlb_asid[ 0]) || tlb_g[ 0]);
+assign match1[ 1] = (s1_vppn[18:10]==tlb_vppn[ 1][18:10])
+                 && (tlb_ps4MB[ 1] || s1_vppn[9:0]==tlb_vppn[ 1][9:0])
+                 && ((s1_asid==tlb_asid[ 1]) || tlb_g[ 1]);
+......
+assign match1[15] = (s1_vppn[18:10]==tlb_vppn[15][18:10])
+                 && (tlb_ps4MB[15] || s1_vppn[9:0]==tlb_vppn[15][9:0])
+                 && ((s1_asid==tlb_asid[15]) || tlb_g[15]);
+```
+
+TLB无效逻辑：
+
+```verilog
+wire [3:0] cond[TLBNUM-1:0];
+genvar i2;
+generate for (i2 = 0; i2 < TLBNUM ; i2=i2+1) begin
+    assign cond[i2][0] = tlb_g[i2] == 1'b1;
+    assign cond[i2][1] = tlb_g[i2] == 1'b0;
+    assign cond[i2][2] = s1_asid == tlb_asid[i2];
+    assign cond[i2][3] = s1_vppn == tlb_vppn[i2] && !((s1_ps == 6'd21) ^ tlb_ps4MB[i2]);
+end
+endgenerate
+
+genvar i3;
+generate for(i3=0; i3<TLBNUM;i3=i3+1) begin
+    always @(posedge clk) begin
+        if (!rstn)
+            tlb_e[i3] <= 1'b0;
+        else if (we && (w_index == i3))
+            tlb_e[w_index] <= w_e;
+        else if((invtlb_op == 0 || 
+                 invtlb_op == 1 || 
+                 invtlb_op == 2 &&  cond[i3][0] ||
+                 invtlb_op == 3 &&  cond[i3][1] ||
+                 invtlb_op == 4 &&  cond[i3][1] && cond[i3][2] ||
+                 invtlb_op == 5 &&  cond[i3][1] && cond[i3][2] && cond[i3][3] ||
+                 invtlb_op == 6 && (cond[i3][0] || cond[i3][2]) && cond[i3][3] ) && invtlb_valid)
+            tlb_e[i3] <= 1'b0;
+    end
+end
+endgenerate
 ```
 
