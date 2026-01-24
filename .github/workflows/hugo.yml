@@ -74,10 +74,10 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Cloudflare Cache Cleaner
-        run: |
-          curl https://api.cloudflare.com/client/v4/zones/${{ secrets.ZONE_ID }}/purge_cache \
-            -H 'Content-Type: application/json' \
-            -H "X-Auth-Email: VincentWQ123@gmail.com" \
-            -H "Authorization: ${{ secrets.API_TOKEN }}" \
-            -d '{"purge_everything": true}'
+      # - name: Cloudflare Cache Cleaner
+      #   run: |
+      #     curl https://api.cloudflare.com/client/v4/zones/${{ secrets.ZONE_ID }}/purge_cache \
+      #       -H 'Content-Type: application/json' \
+      #       -H "X-Auth-Email: VincentWQ123@gmail.com" \
+      #       -H "Authorization: ${{ secrets.API_TOKEN }}" \
+      #       -d '{"purge_everything": true}'
