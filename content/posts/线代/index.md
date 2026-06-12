@@ -4,7 +4,6 @@ description: 神奇的矩阵运算
 date: 2022-12-23
 lastmod: 2025-01-23
 author: Vincent Ice
-avatar: /me/xx.jpg
 cover: cover.jpg
 categories:
     - 线性代数

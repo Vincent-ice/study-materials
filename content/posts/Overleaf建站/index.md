@@ -4,7 +4,7 @@ description: 踩的一些坑
 date: 2025-01-09
 lastmod: 2025-01-09
 author: Vincent Ice
-avatar: /me/xx.jpg
+avatar: /study-materials/me/xx.jpg
 cover: cover.jpg
 categories:
     - 杂

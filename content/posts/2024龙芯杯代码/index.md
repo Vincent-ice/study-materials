@@ -4,7 +4,7 @@ description: 菜
 date: 2025-01-12
 lastmod: 2025-01-13
 author: Vincent Ice
-avatar: /me/xx.jpg
+avatar: /study-materials/me/xx.jpg
 cover: cover.jpg
 categories:
     - FPGA开发
