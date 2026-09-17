@@ -2,7 +2,6 @@
 title: 信号与系统
 description: 每题都说了考啥，你还不会？
 date: 2024-06-17T16:45:45+08:00
-lastmod: 2024-06-24T19:10:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:
@@ -315,4 +314,3 @@ $$
 | $nx(n)$     | $-z\frac{dX(z)}{dz}$ | $R_{x1} <  \lvert z \rvert  < R_{x2}$                     |
 | $x(n-m)$    | $z^{-m}X(z)$         | $R_{x1} <  \lvert z \rvert  < R_{x2}$                     |
 | $x(n)*h(n)$ | $X(z)H(z)$           | $max(R_{x1},R_{h1}) < \lvert z \rvert < min(R_{x2},R_{h2})$ |
-

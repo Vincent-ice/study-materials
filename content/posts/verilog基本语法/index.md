@@ -2,7 +2,6 @@
 title: Verilog 基础知识
 description: Verilog 基础语法与注意事项
 date: 2024-10-19
-lastmod: 2024-10-19T19:10:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:
@@ -685,4 +684,3 @@ counter #(
     .led_out(led_out)
 );
 ```
-

@@ -2,7 +2,6 @@
 title: LoongArch32r指令表
 description: 自制版, 将指令格式与指令功能描述放在一起
 date: 2024-12-01
-lastmod: 2024-12-05T19:10:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:

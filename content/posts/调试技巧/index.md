@@ -2,7 +2,6 @@
 title: Debug方法概论
 description: 调试的小技巧
 date: 2024-11-28
-lastmod: 2024-11-28T19:10:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:

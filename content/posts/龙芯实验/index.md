@@ -2,7 +2,6 @@
 title: 龙芯实验攻略
 description: 给初学者的一些Tips，希望可以帮助大家入门
 date: 2025-01-19
-lastmod: 2025-02-14
 author: Vincent Ice
 avatar: /study-materials/me/xx.jpg
 cover: cover.jpg

@@ -2,7 +2,6 @@
 title: 2024龙芯杯设计文档
 description: 菜
 date: 2025-01-12
-lastmod: 2025-01-13
 author: Vincent Ice
 avatar: /study-materials/me/xx.jpg
 cover: cover.jpg

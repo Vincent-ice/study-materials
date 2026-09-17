@@ -2,7 +2,6 @@
 title: 排球基础知识
 description: 整理一下
 date: 2024-12-31
-lastmod: 2025-01-01T19:10:45+08:00
 author: Vincent Ice
 avatar: /study-materials/me/xx.jpg
 cover: cover.jpg

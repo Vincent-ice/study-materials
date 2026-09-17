@@ -2,7 +2,6 @@
 title: 单片机
 description: 微机换皮
 date: 2024-12-28T10:52:45+08:00
-lastmod: 2024-12-29T21:49:45+08:00
 author: Vincent Ice
 avatar: /study-materials/me/xx.jpg
 cover: cover.jpg
@@ -463,6 +462,5 @@ TXD为数据发送引脚, RXD为数据接收引脚.
 $$
 方式1或3波特率 = \frac{F_{osc}}{32 \times 12 \times (256-TH1)} \times (SMOD+1)
 $$
-
 
 

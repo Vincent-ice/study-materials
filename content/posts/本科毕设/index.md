@@ -2,7 +2,6 @@
 title: 脉冲Transformer加速器FPGA设计
 description: 本科毕设
 date: 2026-06-05
-lastmod: 2026-06-05
 author: Vincent Ice
 cover: cover.jpg
 categories:

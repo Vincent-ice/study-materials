@@ -2,7 +2,6 @@
 title: Overleaf建站
 description: 踩的一些坑
 date: 2025-01-09
-lastmod: 2025-01-09
 author: Vincent Ice
 avatar: /study-materials/me/xx.jpg
 cover: cover.jpg

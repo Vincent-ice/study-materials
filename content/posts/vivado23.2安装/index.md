@@ -2,7 +2,6 @@
 title: vivado 2023.2安装
 description: Vivado 2023.2安装教程
 date: 2024-10-16
-lastmod: 2024-10-18T19:10:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:
@@ -76,4 +75,3 @@ tags:
 
 - [VIVADO使用vscode实现实时纠错与自动补全等功能_vivado代码自动对齐_fujiayu1997zz的博客-CSDN博客](https://blog.csdn.net/weixin_44425619/article/details/115479272)
 - [Sublime与Verilog【一】：从安装到使用，提高FPGA开发效率！ - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/341728027)
-

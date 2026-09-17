@@ -2,7 +2,6 @@
 title: bin文件解析
 description: 浅析一下xilinx bin文件的结构与fpga启动过程
 date: 2026-09-17
-lastmod: 2026-09-17
 author: Vincent Ice
 avatar: /study-materials/me/xx.jpg
 categories:

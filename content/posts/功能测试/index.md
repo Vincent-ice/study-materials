@@ -2,7 +2,6 @@
 title: 龙芯杯功能测试环境简单介绍
 description: CPU仿真测试环境
 date: 2024-11-28
-lastmod: 2024-12-02T19:10:45+08:00
 author: Vincent Ice
 cover: assets/soc_lite_structure.png
 categories:

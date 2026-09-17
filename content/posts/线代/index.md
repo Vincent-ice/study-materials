@@ -2,7 +2,6 @@
 title: 线性代数
 description: 神奇的矩阵运算
 date: 2022-12-23
-lastmod: 2025-01-23
 author: Vincent Ice
 cover: cover.jpg
 categories:
