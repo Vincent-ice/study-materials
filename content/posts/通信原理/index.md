@@ -6,7 +6,7 @@ lastmod: 2024-12-19T22:56:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:
-  - 通信原理
+  - 专业课
 tags:
   - 期末复习
 ---

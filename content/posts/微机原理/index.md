@@ -6,7 +6,7 @@ lastmod: 2024-12-12T22:57:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:
-  - 微机原理
+  - 专业课
 tags:
   - 期末复习
 ---

@@ -6,7 +6,7 @@ lastmod: 2024-12-26T19:10:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:
-  - 高频电路
+  - 专业课
 tags:
   - 期末复习
 ---

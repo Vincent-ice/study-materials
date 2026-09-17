@@ -97,7 +97,7 @@ customSyntaxHighlighting = true
 stickyNav = true
 # reorderNavItems = ["search", "rss", "posts", "categories", "tags"]
 collapseNavItems = ["posts", "categories", "tags"]
-# noDefaultSummaryCover = true
+noDefaultSummaryCover = true
 showTableOfContents = true
 showSummaryCoverInPost = true
 showPrevNextPost = true
@@ -113,3 +113,10 @@ customCSS = ["css/custom.css"]
 jsDate = true
 jsDateFormat = "yyyy年MM月dd日"
 # jsDateFormat = "yyyy年MM月dd日，cccc"
+
+# 启用 Git 信息功能
+enableGitInfo = true 
+
+# 配置 frontmatter 中 lastmod 的来源
+[frontmatter]
+  lastmod = [":git", "lastmod","date"]

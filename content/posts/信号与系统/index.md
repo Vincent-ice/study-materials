@@ -6,7 +6,7 @@ lastmod: 2024-06-24T19:10:45+08:00
 author: Vincent Ice
 cover: cover.jpg
 categories:
-  - 信号与系统
+  - 专业课
 tags:
   - 期末复习
 ---

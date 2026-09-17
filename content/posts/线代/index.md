@@ -6,7 +6,7 @@ lastmod: 2025-01-23
 author: Vincent Ice
 cover: cover.jpg
 categories:
-    - 线性代数
+    - 专业课
 tags: 
     - 期末复习
 ---

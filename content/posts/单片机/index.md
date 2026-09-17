@@ -7,7 +7,7 @@ author: Vincent Ice
 avatar: /study-materials/me/xx.jpg
 cover: cover.jpg
 categories:
-  - 单片机
+  - 专业课
 tags:
   - 期末复习
 
