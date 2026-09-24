@@ -11,13 +11,13 @@ tags:
 ---
 
 
-> 本文是[bin文件解析](../bin文件解析/index.md)的姊妹篇
+> 本文是[bin文件解析](../bin文件解析)的姊妹篇
 
 ## 启动配置序列
 
 众所周知，FPGA是个掉电即丢失的逻辑芯片，其上的用户逻辑通常存储于外置的非易失性存储器中（通常是flash），而负责将用户逻辑从片外加载至片内的是一个纯硬件状态机，也被称为配置控制逻辑（Configuration Control Logic）。
 
-根据[ug470]((https://docs.amd.com/v/u/en-US/ug470_7Series_Config))中所述，配置过程分为8个阶段
+根据[ug470](https://docs.amd.com/v/u/en-US/ug470_7Series_Config)中所述，配置过程分为8个阶段
 
 ![配置流程图](./assets/启动流程.jpg)
 
@@ -79,7 +79,7 @@ vvvv：fffffff：aaaaaaaaa：ccccccccccccc1
 
 ### 6.加载配置数据
 
-终于开始正式加载用户逻辑了，具体加载流程可以看bin文件解析中[FDRI配置帧区](../bin文件解析/index.md#fdri配置帧区)。
+终于开始正式加载用户逻辑了，具体加载流程可以看bin文件解析中[FDRI配置帧区](../bin文件解析/#fdri-配置帧区)。
 
 ### 7.CRC校验
 
