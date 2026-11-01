@@ -210,3 +210,4 @@ set_property BITSTREAM.CONFIG.CONFIGFALLBACK ENABLE [current_design]
 
 在fallback状态下，硬件将忽略golden中的跳转`IPROG`命令和硬件看门狗配置，如果golden本身存在问题无法完成启动流程，那么就真没救了。
 
+> 本方案中只保证PL侧逻辑不会死，如果PS侧存在问题则会静默，并不能检查出。
